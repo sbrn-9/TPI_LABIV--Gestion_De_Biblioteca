@@ -6,10 +6,9 @@
 
 
 ## Tecnologías
-[![My Skills](https://skillicons.dev/icons?i=aws,gcp,azure,react,vue,flutter&perline=3)](https://skillicons.dev)
 <p align="center">
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=html,css,js,php,laravel,git" />
+    <img src="https://skillicons.dev/icons?i=html,css,js,php,laravel,git&perline=3" />
   </a>
 </p>
 
