@@ -13,7 +13,7 @@
 </p>
 
 ## Colaboradores
-| [<img src="https://avatars.githubusercontent.com/u/37356058?v=4" width=115><br><sub>Sabrina Ayelen Arevalo</sub>](https://github.com/sbrn-9)] |  [<img src="https://avatars.githubusercontent.com/u/71970858?v=4" width=115><br><sub>Guadalupe Sosa Fachinotti</sub>]([https://github.com/GuadaFachinotti]) |  [<img src="https://avatars.githubusercontent.com/u/91544872?v=4" width=115><br><sub>Juan Manuel Fernandez</sub>](https://github.com/jumanandez) |
+| [<img src="https://avatars.githubusercontent.com/u/37356058?v=4" width=115><br><sub>Sabrina Ayelen Arevalo</sub>](https://github.com/sbrn-9) |  [<img src="https://avatars.githubusercontent.com/u/71970858?v=4" width=115><br><sub>Guadalupe Sosa Fachinotti</sub>](https://github.com/GuadaFachinotti) |  [<img src="https://avatars.githubusercontent.com/u/91544872?v=4" width=115><br><sub>Juan Manuel Fernandez</sub>](https://github.com/jumanandez) |
 | :---: | :---: | :---: |
 
 
