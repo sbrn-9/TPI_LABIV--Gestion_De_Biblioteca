@@ -11278,3 +11278,16 @@
   body.sidebar-toggled footer.sticky-footer {
     width: 100%;
   }
+
+
+  body::-webkit-scrollbar {
+    width: 12px;               /* width of the entire scrollbar */
+  }
+
+
+
+  body::-webkit-scrollbar-thumb {
+    background-color: #b199ec;    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+      /* creates padding around scroll thumb */
+  }

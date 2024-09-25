@@ -24,7 +24,9 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('assets/css/sb-admin-2.css')}}" rel="stylesheet">
 
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 </head>
 
 <body id="page-top">
@@ -323,7 +325,7 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{{asset('assets/js/jquery.js')}}"></script>
+    {{-- <script src="{{asset('assets/js/jquery.js')}}"></script> --}}
     <script src="{{asset('assets/js/bootstrap.js')}}"></script>
 
     <!-- Core plugin JavaScript-->
@@ -338,6 +340,16 @@
     <!-- Page level custom scripts -->
     <script src="{{asset('asset/js/chart-area-demo.js')}}"></script>
     <script src="{{asset('assets/js/chart-pie-demo.js')}}"></script>
+
+ {{--  --}}
+    <script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable({
+            "paging": true,
+            "searching": true
+        });
+    });
+    </script>
 
 </body>
 
