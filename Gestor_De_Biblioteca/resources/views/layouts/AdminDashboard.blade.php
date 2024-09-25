@@ -49,7 +49,7 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="{{route('welcome')}}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-home"></i>
                     <span>Home</span></a>
             </li>
 
@@ -58,7 +58,7 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="{{route('welcome')}}">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-book"></i>
                     <span>Libros</span></a>
 
             </li>
@@ -68,7 +68,7 @@
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link" href="{{route('welcome')}}">
-                    <i class="fas fa-fw fa-folder"></i>  <!--Cambiar el el icono a user-->
+                    <i class="fas fa-fw fa-user"></i>  <!--Cambiar el el icono a user-->
                     <span>Usuarios</span>
                 </a>
 
