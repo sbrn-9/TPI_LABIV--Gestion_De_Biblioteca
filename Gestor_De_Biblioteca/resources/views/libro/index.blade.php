@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admindashboard')
 @section('content')
 <h1>Lista de Libros</h1>
     <a href="{{route('libros.create')}}" class="button">
@@ -32,7 +32,7 @@
                     <td>{{ $libro->descripcion }}</td>
                     <td>{{ $libro->codigo }}</td>
                     <td>{{ $libro->cantidad }}</td>
-                    <td>{{ $libro->disponibilidad}}</td>
+                    <td>{{ $libro->disponibles}}</td>
                     <td>{{ $libro->categoria }}</td>
                     <td>
                         <a href="{{route('libros.show', ['libro' => $libro->id])}}" class="btn btn-primary">

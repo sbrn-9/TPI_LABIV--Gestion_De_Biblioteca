@@ -11,7 +11,7 @@ class UpdateLibroRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,15 @@ class UpdateLibroRequest extends FormRequest
      */
     public function rules(): array
     {
+        $libro = $this->route('libro');
         return [
-            //
+            'titulo' => 'required|string|max:255',
+            'autor' => 'required|string|max:255',
+            'descripcion' => 'required|string',
+            'codigo' => 'required|string|unique:libros,codigo,'. $libro->id,
+            'cantidad' => 'required|integer',
+            'disponibles' => 'required|integer',
+            'categoria_id' => 'required|exists:categorias,id',
         ];
     }
 }

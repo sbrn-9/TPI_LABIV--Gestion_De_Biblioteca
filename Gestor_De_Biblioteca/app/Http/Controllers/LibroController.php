@@ -33,15 +33,7 @@ class LibroController extends Controller
      */
     public function store(StoreLibroRequest $request)
     {
-        $validated = $request->validate([
-            'titulo' => 'required|string|max:255',
-            'autor' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'codigo' => 'required|string|unique:libros,codigo',
-            'cantidad' => 'required|integer',
-            'disponibilidad' => 'required|integer',
-            'categoria' => 'required|exists:categorias,nombre',
-        ]);
+        $validated = $request->validated();
 
 
         Libro::create($validated);
@@ -50,12 +42,14 @@ class LibroController extends Controller
 
     }
 
+    
+
     /**
      * Display the specified resource.
      */
     public function show(Libro $libro)
     {
-        return view('libros.libro',['libro' => $libro]);
+        return view('libros.show',['libro' => $libro]);
     }
 
     /**
@@ -72,15 +66,8 @@ class LibroController extends Controller
      */
     public function update(UpdateLibroRequest $request, Libro $libro)
     {
-        $validated = $request->validate([
-            'titulo' => 'required|string|max:255',
-            'autor' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'codigo' => 'required|string|unique:libros,codigo,'. $libro->id,
-            'cantidad' => 'required|integer',
-            'disponibilidad' => 'required|integer',
-            'categoria' => 'required|exists:categorias,nombre',
-        ]);
+        
+        $validated = $request->validated();
 
         $libro->update([
             'titulo' => $validated['titulo'],
@@ -88,8 +75,8 @@ class LibroController extends Controller
             'descripcion' => $validated['descripcion'],
             'codigo' => $validated['codigo'],
             'cantidad' => $validated['cantidad'],
-            'disponibilidad' => $validated['disponibilidad'],
-            'categoria' => $validated['categoria'],
+            'disponibles' => $validated['disponibles'],
+            'categoria_id' => $validated['categoria_id'],
         ]);
         return redirect()->route('libros.index')->with('success', 'Libro Actualizado Correctamente');
     }
