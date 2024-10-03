@@ -36,12 +36,12 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach($prestamos as $prestamo)
+                        {{-- @foreach($prestamos as $prestamo)
                         <tr>
                             <td>{{ $prestamo->dsd }}</td>
 
                         </tr>
-                        @endforeach
+                        @endforeach --}}
 
 
                     </tbody>

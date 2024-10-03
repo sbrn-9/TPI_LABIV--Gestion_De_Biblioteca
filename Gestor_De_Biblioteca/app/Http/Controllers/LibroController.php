@@ -16,7 +16,7 @@ class LibroController extends Controller
     {
         $libros = Libro::all();
 
-        return view('libros.index', ['libros' => $libros]);
+        return view('libros-admin', ['libros' => $libros]);
     }
 
     /**
@@ -42,7 +42,7 @@ class LibroController extends Controller
 
     }
 
-    
+
 
     /**
      * Display the specified resource.
@@ -66,7 +66,7 @@ class LibroController extends Controller
      */
     public function update(UpdateLibroRequest $request, Libro $libro)
     {
-        
+
         $validated = $request->validated();
 
         $libro->update([

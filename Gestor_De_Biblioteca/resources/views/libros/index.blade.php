@@ -33,7 +33,7 @@
                     <td>{{ $libro->codigo }}</td>
                     <td>{{ $libro->cantidad }}</td>
                     <td>{{ $libro->disponibles}}</td>
-                    <td>{{ $libro->categoria }}</td>
+                    <td>{{ $libro->categoria->nombre }}</td>
                     <td>
                         <a href="{{route('libros.show', ['libro' => $libro->id])}}" class="btn btn-primary">
                             Detalles
