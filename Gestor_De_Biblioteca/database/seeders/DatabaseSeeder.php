@@ -17,9 +17,9 @@ class DatabaseSeeder extends Seeder
         ************************DESCOMENTAR LO DE ABAJO PARA LA PRIMERA VEZ***********************************
         */
         $this->call([
-            //CategoriaSeeder::class,
-            //LibroSeeder::class
-            //MiUsuarioSeeder::class
+            CategoriaSeeder::class,
+            LibroSeeder::class,
+            MiUsuarioSeeder::class
         ]);
     }
 }

@@ -19,9 +19,9 @@ class MiUsuarioSeeder extends Seeder
         ***************************COMPLETAR CON TUS DATOS*******************************
         */
         User::factory()->create([
-                'name' => 'Juan Manuel Fernandez',
-                'email' => 'juanma08072003@gmail.com',
-                'password' => Hash::make('12345678'),
+                'name' => 'Guadalupe Sosa Fachinotti',
+                'email' => 'guadafachinotti@gmail.com',
+                'password' => Hash::make('123456789'),
                 'role' => TipoUsuario::Admin->value,
             ]);
 
