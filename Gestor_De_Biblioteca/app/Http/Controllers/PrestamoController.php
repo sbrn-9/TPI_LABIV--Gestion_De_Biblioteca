@@ -13,7 +13,8 @@ class PrestamoController extends Controller
      */
     public function index()
     {
-        //
+        $prestamos = Prestamo::all();
+        return view('prestamos.index', ['prestamos' => $prestamos]);
     }
 
     /**
@@ -21,7 +22,7 @@ class PrestamoController extends Controller
      */
     public function create()
     {
-        //
+        return view('prestamos.create');
     }
 
     /**
@@ -37,7 +38,7 @@ class PrestamoController extends Controller
      */
     public function show(Prestamo $prestamo)
     {
-        //
+        return view('prestamos.show', ['prestamo' => $prestamo]);
     }
 
     /**
@@ -45,7 +46,7 @@ class PrestamoController extends Controller
      */
     public function edit(Prestamo $prestamo)
     {
-        //
+        return view('prestamos.edit', ['prestamo' => $prestamo]);
     }
 
     /**

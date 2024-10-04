@@ -43,7 +43,7 @@ class Prestamo extends Model
         return $this->belongsTo(User::class, 'admin_eliminador');
     }
 
-    public function cliente()
+    public function clienteche()
     {
         return $this->belongsTo(User::class, 'cliente');
     }
@@ -55,6 +55,6 @@ class Prestamo extends Model
      */
      public function libros(): BelongsToMany
      {
-         return $this->belongsToMany(Libro::class, 'libros_prestados', 'prestamo_id', 'libro_id');
+         return $this->belongsToMany(Libro::class, 'libros__prestados', 'prestamo_id', 'libro_id');
      }
 }
