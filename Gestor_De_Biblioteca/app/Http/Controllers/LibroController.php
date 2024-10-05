@@ -16,7 +16,7 @@ class LibroController extends Controller
     {
         $libros = Libro::all();
 
-        return view('libros-admin', ['libros' => $libros]);
+        return view('admin.libros-admin', ['libros' => $libros]); //Cambié libros admin por admin-libros-admin
     }
 
     /**

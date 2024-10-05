@@ -24,7 +24,6 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('assets/css/sb-admin-2.css')}}" rel="stylesheet">
 
-    {{-- tablas --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
@@ -53,45 +52,27 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{route('welcome')}}">
                     <i class="fas fa-fw fa-home"></i>
-                    <span>Mis préstamos</span></a>
+                    <span>Home</span></a> <!--Muestra una tarjetas de libros y tiene un filtro-->
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.libros-admin') }}">
-                    <i class="fas fa-fw fa-book"></i>
-                    <span>Libros</span>
-                </a>
-            </li>
-
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('welcome')}}">
-                    <i class="fas fa-fw fa-user"></i>  <!--Cambiar el el icono a user-->
-                    <span>Usuarios</span>
-                </a>
-
-            </li>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="{{route('welcome')}}" data-toggle="collapse" data-target="#collapsePages"
                 aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Informes</span></a>
+                    <span>Mis préstamos</span></a>
 
                     {{-- Agregar lista de informes --}}
                     <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Informe</h6>
-                        <a class="collapse-item" href="{{route('welcome')}}">Resumen de prestamos</a>
-                        <a class="collapse-item" href="{{route('welcome')}}">Prestamos activos</a>
-                        <a class="collapse-item" href="{{route('welcome')}}">algo1</a>
-                        <a class="collapse-item" href="{{route('welcome')}}">algo2</a>
+
+                        <h6 class="collapse-header">Acciones</h6>
+                        <a class="collapse-item" href="{{route('welcome')}}">Todos</a>
+                        <a class="collapse-item" href="{{route('welcome')}}">Activos</a>
+                        <a class="collapse-item" href="{{route('welcome')}}">Cancelados</a>
+                        <a class="collapse-item" href="{{route('welcome')}}">Finalizados</a>
                     </div>
                 </div>
             </li>
@@ -126,8 +107,39 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search: se saco porque las tablas ya tienen su buscador integrado -->
+                    <!-- Topbar Search -->
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        @csrf
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar libro..."
+                                aria-label="Search" aria-describedby="basic-addon2">
 
+                            <!--filtro de busqueda-->
+
+                            <!-- Filtro por categoría -->
+                            <select class="form-control bg-light border-0 small ml-2" name="category" aria-label="Category">
+                                <option value="">Todos los libros</option>
+                                <option value="aventura">Aventura</option>
+                                <option value="fantasia">Fantasía</option>
+                                <option value="ciencia_ficcion">Ciencia Ficción</option>
+                                <option value="misterio">Misterio</option>
+                                <option value="biografia">Biografía</option>
+                                <option value="historia">Historia</option>
+                                <option value="romance">Romance</option>
+                                <option value="terror">Terror</option>
+                                <option value="poesia">Poesía</option>
+                                <option value="novela">Novela</option>
+                                <option value="infantil">Infantil</option>
+                            </select>
+
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -233,7 +245,7 @@
                                 </a>
 
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{route('login')}}" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="{{route('welcome')}}" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Cerrar sesión
                                 </a>
@@ -285,22 +297,16 @@
                     </button>
                 </div>
                 <div class="modal-body">Estás seguro de cerrar la sesión actual?</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-
-                    {{-- Autenticación: Cierre de sesión --}}
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <a class="btn btn-primary" :href="route('logout')"
-                        onclick="event.preventDefault();
-                                    this.closest('form').submit();">
-                            Cerrar sesión</a>
-
-                    </form>
 
 
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <a class="btn btn-primary" :href="route('logout')"
+                    onclick="event.preventDefault();
+                                this.closest('form').submit();">
+                        Cerrar sesión</a>
 
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -322,7 +328,7 @@
     <script src="{{asset('asset/js/chart-area-demo.js')}}"></script>
     <script src="{{asset('assets/js/chart-pie-demo.js')}}"></script>
 
- {{--  --}}
+ {{-- paginado de la tabla --}}
     <script>
     $(document).ready(function() {
         $('#dataTable').DataTable({
