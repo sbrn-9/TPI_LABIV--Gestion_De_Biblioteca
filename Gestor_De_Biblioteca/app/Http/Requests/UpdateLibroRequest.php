@@ -29,7 +29,7 @@ class UpdateLibroRequest extends FormRequest
             'descripcion' => 'required|string',
             'codigo' => 'required|string|unique:libros,codigo,'. $libro->id,
             'cantidad' => 'required|integer',
-            'disponibles' => 'required|integer',
+            'disponibles' => 'required|integer|min:0',
             'categoria_id' => 'required|exists:categorias,id',
         ];
     }

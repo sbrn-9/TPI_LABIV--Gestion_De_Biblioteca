@@ -10,11 +10,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Libros_Prestados extends Model
 {
     use HasFactory;
+
     use SoftDeletes;
+    protected $table = 'libros_prestados';
     protected $fillable = [
         'libro_id',
         'cantidad',
-        'estado,',
+        'estado',
         'prestamo_id'
     ];
 

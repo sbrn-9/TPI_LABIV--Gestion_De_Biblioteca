@@ -11,7 +11,7 @@ class StorePrestamoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StorePrestamoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'fecha_prestamo' => 'required|date',
+            'fecha_devolucion' => 'required|date|after_or_equal:fecha_prestamo',
+            'libros' => ['required', 'array'], // Este será el array de libros
+            'libros.*.libro_id' => ['required', 'exists:libros,id'], // Verificamos que el libro existe
+            'libros.*.cantidad' => ['nullable', 'integer', 'min:1'], // Verificamos que la cantidad es válida
         ];
     }
 }

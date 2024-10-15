@@ -17,6 +17,7 @@
                     <th>Fecha Préstamo</th>
                     <th>Fecha Devolución</th>
                     <th>Cliente</th>
+                    <th>Estado</th>
                     <th>Admin Cancelador</th>
                     <th>Fecha Cancelacion</th>
                     <th>Admin Modificador</th>
@@ -31,12 +32,13 @@
                         <td>{{ $prestamo->id }}</td>
                         <td>{{ $prestamo->fecha_prestamo }}</td>
                         <td>{{ $prestamo->fecha_devolucion }}</td>
-                        <td>{{ $prestamo->clienteche->name }}</td> <!-- Asegúrate de que cliente tiene una relación adecuada -->
-                        <td>{{ $prestamo->admin_cancelador->nombre ?? 'N/A' }}</td>
+                        <td>{{ $prestamo->propietario->name }}</td>
+                        <td>{{ $prestamo->estado->name }}</td>
+                        <td>{{ $prestamo->admin_cancelador->name ?? 'N/A' }}</td>
                         <td>{{ $prestamo->canceled_at }}</td>
-                        <td>{{ $prestamo->admin_modificador->nombre ?? 'N/A' }}</td>
+                        <td>{{ $prestamo->admin_modificador->name ?? 'N/A' }}</td>
                         <td>{{ $prestamo->updated_at}}</td>
-                        <td>{{ $prestamo->admin_eliminador->nombre ?? 'N/A' }}</td>
+                        <td>{{ $prestamo->admin_eliminador->name ?? 'N/A' }}</td>
                         <td>
                             <a href="{{ route('prestamos.show', $prestamo->id) }}" class="btn btn-info btn-sm">Ver</a>
                             <a href="{{ route('prestamos.edit', $prestamo->id) }}" class="btn btn-warning btn-sm">Editar</a>

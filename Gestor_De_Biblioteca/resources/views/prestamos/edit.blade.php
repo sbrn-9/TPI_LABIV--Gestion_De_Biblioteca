@@ -3,7 +3,16 @@
 @section('content')
     <div class="container">
         <h2>Crear Nuevo Prestamo</h2>
-
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <strong>Por las Barbas de mí tía Petuña/ Algo fue mal...</strong><br>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
         <form action="{{ route('crearprestamo.store') }}" method="POST">
             @csrf
 

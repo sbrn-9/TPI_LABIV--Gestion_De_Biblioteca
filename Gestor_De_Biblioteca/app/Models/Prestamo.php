@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\EstadoPrestamo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -15,7 +16,8 @@ class Prestamo extends Model
     protected $fillable = [
         'estado',
         'fecha_prestamo',
-        'fecha_devolucion'
+        'fecha_devolucion',
+        'cliente'
     ];
 
     protected function casts(): array
@@ -25,6 +27,7 @@ class Prestamo extends Model
             'fecha_devolucion' => 'datetime',
             'fecha_modificación' => 'datetime',
             'fecha_cancelación' => 'datetime',
+            'estado' => EstadoPrestamo::class
         ];
     }
 
@@ -43,7 +46,7 @@ class Prestamo extends Model
         return $this->belongsTo(User::class, 'admin_eliminador');
     }
 
-    public function clienteche()
+    public function propietario()
     {
         return $this->belongsTo(User::class, 'cliente');
     }
@@ -55,6 +58,6 @@ class Prestamo extends Model
      */
      public function libros(): BelongsToMany
      {
-         return $this->belongsToMany(Libro::class, 'libros__prestados', 'prestamo_id', 'libro_id');
+         return $this->belongsToMany(Libro::class, 'libros_prestados', 'prestamo_id', 'libro_id');
      }
 }
