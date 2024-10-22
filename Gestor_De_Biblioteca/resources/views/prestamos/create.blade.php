@@ -3,7 +3,16 @@
 @section('content')
     <div class="container">
         <h2>Crear Nuevo Prestamo</h2>
-
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Por las Barbas de mí tía Petuña/ Algo fue mal...</strong><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
         <form action="{{ route('prestamos.store') }}" method="POST">
             @csrf
 
@@ -24,8 +33,18 @@
             @foreach ($libros as $libro)
                 <div class="form-group">
                     <label>{{ $libro->titulo }} (Disponibles: {{ $libro->disponibles }})</label>
-                    <input type="hidden" name="libros[{{ $loop->index }}][libro_id]" value="{{ $libro->id }}">
-                    <input type="number" class="form-control" name="libros[{{ $loop->index }}][cantidad]" min="1" max="{{ $libro->disponibles }}" placeholder="Disponibles: {{ $libro->disponibles }}">
+                    <input
+                    type="hidden"
+                    name="libros[{{ $loop->index }}][libro_id]"
+                    value="{{ $libro->id }}"
+                    >
+                    <input
+                    type="number"
+                    class="form-control"
+                    name="libros[{{ $loop->index }}][cantidad]"
+                    min="1"
+                    max="{{ $libro->disponibles }}"
+                    placeholder="Disponibles: {{ $libro->disponibles }}">
                 </div>
             @endforeach
 

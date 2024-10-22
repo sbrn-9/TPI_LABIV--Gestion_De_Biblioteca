@@ -1,14 +1,21 @@
 @extends('layouts.admindashboard')
 @section('content')
+<a href="{{ route('prestamos.index') }}" class="btn btn-primary">Volver</a>
 <h1>id: {{$prestamo->id}}</h1>
-<h1>Fecha de prestamo:{{$prestamo->fecha_prestamo}}</h1>
-<h2>Fecha de devolucion:{{$prestamo->fecha_devolucion}}</h2>
-<h4>Cliente: {{$prestamo->clienteche->name}}</h4>
+<h1>Fecha de prestamo:{{$prestamo->fecha_prestamo->format('d-M-y')}}</h1>
+<h2>Fecha de devolucion:{{$prestamo->fecha_devolucion->format('d-M-y')}}</h2>
+<h4>Cliente: {{$prestamo->propietario->name}}</h4>
 <h4>Libros:</h4>
 <ul>
-@foreach ($prestamo->libros as $libro)
-    <li>{{$libro->titulo}}</li>
-@endforeach
+@if ($prestamoLibrosInfo->isEmpty())
+    NO HAY LIBROS PRESTADOS, ELIMINAR ESTE PRESTAMO? ver esta parte jejejeje
+    <a href="{{route('prestamos.destroy', $prestamo->id)}}" class="btn btn-danger">Eliminar</a>
+@else
+    @foreach ($prestamoLibrosInfo as $info)
+    <li>{{$info->libro->titulo}} : {{$info->cantidad}}</li>
+    @endforeach
+@endif
+
 </ul>
 
 @if(session('error'))
@@ -26,10 +33,6 @@
             @method('DELETE') <!-- Esto es crucial para que funcione -->
             <button type="submit" class="btn btn-danger">Eliminar</button>
         </form>
-
-        <!-- a href="{//{route('prestamos.create') }}" class="btn btn-primary">
-            Pedir Préstamo
-        </-a-->
         @if(session('error'))
             <div class="alert alert-danger">
                 {{ session('error') }}
