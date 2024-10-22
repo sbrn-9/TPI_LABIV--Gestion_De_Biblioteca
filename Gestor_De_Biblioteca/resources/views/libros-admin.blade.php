@@ -5,7 +5,7 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Préstamos</h1>
+    <h1 class="h3 mb-2 text-gray-800">Libros</h1>
 
     {{-- botones de crud --}}
 
@@ -22,7 +22,7 @@
                             <th>Office</th>
                             <th>Age</th>
                             <th>Start date</th>
-                            <th>Salary</th>
+                            <th>Editar</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -32,17 +32,16 @@
                             <th>Office</th>
                             <th>Age</th>
                             <th>Start date</th>
-                            <th>Salary</th>
+                            <th>Editar</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach($prestamos as $prestamo)
+                        @foreach($libros as $libro)
                         <tr>
-                            <td>{{ $prestamo->dsd }}</td>
+                            <td>{{ $libro->dsd }}</td>
 
                         </tr>
                         @endforeach
-
 
                     </tbody>
                 </table>
