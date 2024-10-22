@@ -1,9 +1,12 @@
 @extends('layouts.admindashboard')
 @section('content')
 <h1>Lista de Libros</h1>
-    <a href="{{route('libros.create')}}" class="button">
+<p>
+    <a href="{{route('libros.create')}}" class="btn btn-primary">
         Nuevo Libro
     </a>
+</p>
+   
     @if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
@@ -33,7 +36,7 @@
                     <td>{{ $libro->codigo }}</td>
                     <td>{{ $libro->cantidad }}</td>
                     <td>{{ $libro->disponibles}}</td>
-                    <td>{{ $libro->categoria }}</td>
+                    <td>{{ $libro->categoria->nombre }}</td>
                     <td>
                         <a href="{{route('libros.show', ['libro' => $libro->id])}}" class="btn btn-primary">
                             Detalles

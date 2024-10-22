@@ -26,8 +26,8 @@ class StoreLibroRequest extends FormRequest
             'autor' => 'required|string|max:255',
             'descripcion' => 'required|string',
             'codigo' => 'required|string|unique:libros,codigo',
-            'cantidad' => 'required|integer',
-            'disponibles' => 'required|integer',
+            'cantidad' => 'required|integer|min:1',
+            'disponibles' => 'required|integer|min:1|lte:cantidad',
             'categoria_id' => 'required|exists:categorias,id',
         ];
     }
