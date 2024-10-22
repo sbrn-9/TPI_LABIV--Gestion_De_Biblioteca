@@ -60,7 +60,7 @@
             <hr class="sidebar-divider">
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.libros-admin') }}">
+                <a class="nav-link" href="{{route('libros.index')}}">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Libros</span>
                 </a>
