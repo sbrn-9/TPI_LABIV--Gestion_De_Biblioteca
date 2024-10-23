@@ -21,6 +21,7 @@ class UpdateLibroRequest extends FormRequest
      */
     public function rules(): array
     {
+        //obtenemos el libro de la ruta en la que estamos actualmente
         $libro = $this->route('libro');
         return [
             'titulo' => 'required|string|max:255',
@@ -28,7 +29,7 @@ class UpdateLibroRequest extends FormRequest
             'descripcion' => 'required|string',
             'codigo' => 'required|string|unique:libros,codigo,'. $libro->id,
             'cantidad' => 'required|integer',
-            'disponibles' => 'required|integer',
+            'disponibles' => 'required|integer|min:0',
             'categoria_id' => 'required|exists:categorias,id',
         ];
     }
