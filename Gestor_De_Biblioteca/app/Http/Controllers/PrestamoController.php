@@ -117,6 +117,7 @@ class PrestamoController extends Controller
              'fecha_prestamo' => $validatedData['fecha_prestamo'],
              'fecha_devolucion' => $validatedData['fecha_devolucion'],
              'estado' => $estado,
+             'admin_modificador' => auth::user()->id,
          ]);
 
         $librosPrestados = Libros_Prestados::where('prestamo_id', $prestamo->id)->get();
