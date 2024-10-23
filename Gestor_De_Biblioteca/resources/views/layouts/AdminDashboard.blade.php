@@ -51,7 +51,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="{{route('welcome')}}">
+                <a class="nav-link" href="{{route('prestamos.index')}}">
                     <i class="fas fa-fw fa-home"></i>
                     <span>Mis préstamos</span></a>
             </li>

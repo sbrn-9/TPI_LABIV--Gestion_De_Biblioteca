@@ -10,6 +10,10 @@
         </div>
     @endif
     <div>
+        <a href="{{route('prestamos.create') }}" class="btn btn-primary"  margin= "10px">
+            Nuevo Préstamo
+        </a>
+
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -40,21 +44,21 @@
                         <td>{{ $prestamo->updated_at}}</td>
                         <td>{{ $prestamo->admin_eliminador->name ?? 'N/A' }}</td>
                         <td>
-                            <a href="{{ route('prestamos.show', $prestamo->id) }}" class="btn btn-info btn-sm">Ver</a>
-                            <a href="{{ route('prestamos.edit', $prestamo->id) }}" class="btn btn-warning btn-sm">Editar</a>
+
+                            <a href="{{ route('prestamos.show', $prestamo->id) }}" class="btn btn-info btn-sm m-2" >Ver</a>
+                            <a href="{{ route('prestamos.edit', $prestamo->id) }}" class="btn btn-warning btn-sm m-2" >Editar</a>
                             <form action="{{ route('prestamos.destroy', $prestamo->id) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este préstamo?')">Eliminar</button>
+                                <button type="submit" class="btn btn-danger btn-sm m-2" onclick="return confirm('¿Estás seguro de que deseas eliminar este préstamo?')" >Eliminar</button>
                             </form>
+
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        <a href="{{route('prestamos.create') }}" class="btn btn-primary">
-            Nuevo Préstamo
-        </a>
+
     </div>
 </div>
 @endsection
