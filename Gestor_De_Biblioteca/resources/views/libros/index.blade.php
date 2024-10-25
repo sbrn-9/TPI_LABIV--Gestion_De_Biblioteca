@@ -8,16 +8,16 @@
     <h1>Libros</h1>
 
     <a href="{{route('libros.create')}}" class="btn btn-primary m-2">
-        Nuevo Libro
+        <i class="fas fa-plus"></i> Nuevo Libro
     </a>
     <button id="detailButton" class="btn btn-secondary m-2" disabled>
-        Detalles
+        <i class="fas fa-eye"></i> Detalles
     </button>
     <button id="editButton" class="btn btn-info m-2" disabled>
-        Editar
+        <i class="fas fa-edit"></i> Editar
     </button>
     <button id="deleteButton" class="btn btn-danger m-2" disabled>
-        Eliminar
+        <i class="fas fa-trash"></i> Eliminar
     </button>
 
     @if(session('success'))
@@ -28,20 +28,19 @@
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>ID</th>
+                            <th class="text-center" style="width: 30px;">#</th>
+                            <th class="text-center" style="width: 80px;">Imagen</th>
                             <th>Título</th>
                             <th>Autor</th>
                             <th>Descripción</th>
                             <th>Código</th>
-                            <th>Cantidad</th>
-                            <th>Disponibilidad</th>
+                            <th class="text-center" style="width: 100px;">Cantidad</th>
+                            <th class="text-center" style="width: 120px;">Disponibles</th>
                             <th>Categoría</th>
                         </tr>
                     </thead>
@@ -49,19 +48,30 @@
                     <tbody>
                         @foreach ($libros as $libro)
                         <tr>
-                            <td class="text-center"><input type="radio" name="selectedLibro" value="{{ $libro->id }}" onclick="toggleButtons(this)"></td>
-                            <td>{{ $libro->id }}</td>
-                            <td>{{ $libro->titulo }}</td>
-                            <td>{{ $libro->autor }}</td>
-                            <td>{{ $libro->descripcion }}</td>
-                            <td>{{ $libro->codigo }}</td>
-                            <td>{{ $libro->cantidad }}</td>
-                            <td>{{ $libro->disponibles}}</td>
-                            <td>{{ $libro->categoria->nombre }}</td>
-                            
+                            <td class="text-center align-middle">
+                                <input type="radio" name="selectedLibro" value="{{ $libro->id }}" onclick="toggleButtons(this)">
+                            </td>
+                            <td class="text-center">
+                                @if($libro->img_url)
+                                    <img src="{{ $libro->img_url }}" alt="Portada de {{ $libro->titulo }}" 
+                                         class="img-thumbnail" style="max-height: 60px;">
+                                @else
+                                    <span class="text-muted"><i class="fas fa-image fa-2x"></i></span>
+                                @endif
+                            </td>
+                            <td class="align-middle">{{ $libro->titulo }}</td>
+                            <td class="align-middle">{{ $libro->autor }}</td>
+                            <td class="align-middle">{{ Str::limit($libro->descripcion, 100) }}</td>
+                            <td class="align-middle">{{ $libro->codigo }}</td>
+                            <td class="text-center align-middle">{{ $libro->cantidad }}</td>
+                            <td class="text-center align-middle">
+                                <span class="badge text-white {{ $libro->disponibles > 0 ? 'bg-success' : 'bg-danger' }}">
+                                    {{ $libro->disponibles }}
+                                </span>
+                            </td>
+                            <td class="align-middle">{{ $libro->categoria->nombre }}</td>
                         </tr>
-                    @endforeach
-
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -93,7 +103,19 @@
 
             detailButton.onclick = () => window.location.href = `{{ url('libros') }}/${libroId}`;
             editButton.onclick = () => window.location.href = `{{ url('libros') }}/${libroId}/edit`;
-            deleteButton.onclick = () => window.location.href = `{{ url('libros') }}/${libroId}/destroy`;
+            deleteButton.onclick = () => {
+                if (confirm('¿Estás seguro de que deseas eliminar este libro?')) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = `{{ url('libros') }}/${libroId}`;
+                    form.innerHTML = `
+                        @csrf
+                        @method('DELETE')
+                    `;
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            };
         }
     }
 </script>

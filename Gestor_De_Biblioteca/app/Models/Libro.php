@@ -21,7 +21,8 @@ class Libro extends Model
         'codigo',
         'cantidad',
         'disponibles',
-        'categoria_id'
+        'categoria_id',
+        'img_url'
     ];
 
     public function categoria(): BelongsTo

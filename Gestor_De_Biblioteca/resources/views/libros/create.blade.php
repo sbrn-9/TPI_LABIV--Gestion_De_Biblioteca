@@ -17,7 +17,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('libros.store') }}" method="POST">
+            <form action="{{ route('libros.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="form-group mb-3">
@@ -80,6 +80,17 @@
                     @enderror
                 </div>
 
+                <div class="form-group mb-3">
+                    <label for="imagen">Imagen del Libro: </label>
+                    <input type="file" class="@error('imagen') is-invalid @enderror" id="imagen" name="imagen" accept="image/jpeg,image/png,image/jpg,image/gif" onchange="previewImage(this)" >
+                    @error('imagen')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                    <div id="imagePreview" class="mt-2" style="display: none;">
+                        <img id="preview" src="" alt="Vista previa de la imagen" style="max-width: 200px; max-height: 200px;">
+                    </div>
+                </div>
+
                 <x-primary-button class="btn btn-primary">
                     {{ __('Guardar') }}
                 </x-primary-button>
@@ -87,4 +98,25 @@
         </div>
     </div>
 </div>
+
+<script>
+function previewImage(input) {
+    const preview = document.getElementById('preview');
+    const previewDiv = document.getElementById('imagePreview');
+    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            previewDiv.style.display = 'block';
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        preview.src = '';
+        previewDiv.style.display = 'none';
+    }
+}
+</script>
 @endsection
