@@ -1,21 +1,21 @@
 <?php
 
 namespace App\Http\Middleware;
+use Illuminate\Support\Facades\Auth;
 
 use Closure;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use App\Http\Controllers\Auth;
 
 class IsRoleAdmin
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
-    public function handle(Request $request, Closure $next): Response
+    public function handle($request, Closure $next)
     {
-        return $next($request);
+        //dd(Auth::user()->role);
+
+        if (Auth::user()->role->isAdmin()) {
+            return $next($request); // Permitimos la continuación solo si es admin
+        }
+
+        return redirect('https://www.youtube.com/watch?v=dQw4w9WgXcQ'); // Redirige a YouTube
+
     }
 }
