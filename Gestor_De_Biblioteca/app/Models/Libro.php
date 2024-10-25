@@ -22,7 +22,12 @@ class Libro extends Model
         'cantidad',
         'disponibles',
         'categoria_id',
-        'img_url'
+        'img_url',
+        'calificacion',
+        'editorial',
+        'fecha_publicacion',
+        'idioma',
+        'numero_paginas'
     ];
 
     public function categoria(): BelongsTo

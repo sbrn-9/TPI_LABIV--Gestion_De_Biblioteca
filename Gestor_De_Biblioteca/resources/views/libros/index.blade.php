@@ -37,7 +37,8 @@
                             <th class="text-center" style="width: 80px;">Imagen</th>
                             <th>Título</th>
                             <th>Autor</th>
-                            <th>Descripción</th>
+                            <th>Editorial</th>
+                            <th class="text-center">Calificación</th>
                             <th>Código</th>
                             <th class="text-center" style="width: 100px;">Cantidad</th>
                             <th class="text-center" style="width: 120px;">Disponibles</th>
@@ -61,7 +62,24 @@
                             </td>
                             <td class="align-middle">{{ $libro->titulo }}</td>
                             <td class="align-middle">{{ $libro->autor }}</td>
-                            <td class="align-middle">{{ Str::limit($libro->descripcion, 100) }}</td>
+                            <td class="align-middle">{{ $libro->editorial ?? 'No especificada' }}</td>
+                            <td class="text-center align-middle">
+                                @if($libro->calificacion)
+                                    <div class="text-warning">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            @if($i <= $libro->calificacion)
+                                                <i class="fas fa-star"></i>
+                                            @elseif($i - 0.5 <= $libro->calificacion)
+                                                <i class="fas fa-star-half-alt"></i>
+                                            @else
+                                                <i class="far fa-star"></i>
+                                            @endif
+                                        @endfor
+                                    </div>
+                                @else
+                                    <span class="text-muted">Sin calificar</span>
+                                @endif
+                            </td>
                             <td class="align-middle">{{ $libro->codigo }}</td>
                             <td class="text-center align-middle">{{ $libro->cantidad }}</td>
                             <td class="text-center align-middle">

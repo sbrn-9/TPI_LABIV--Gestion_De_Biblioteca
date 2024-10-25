@@ -61,14 +61,6 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="disponibles">Disponibilidad</label>
-                    <input type="number" class="form-control @error('disponibles') is-invalid @enderror" id="disponibles" name="disponibles" value="{{ old('disponibles') }}">
-                    @error('disponibles')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="form-group mb-3">
                     <label for="categoria_id">Categoría</label>
                     <select class="form-control @error('categoria_id') is-invalid @enderror" id="categoria_id" name="categoria_id">
                         @foreach ($categorias as $categoria)
@@ -76,6 +68,46 @@
                         @endforeach
                     </select>
                     @error('categoria_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="calificacion">Calificación</label>
+                    <input type="number" step="0.1" min="0" max="5" class="form-control @error('calificacion') is-invalid @enderror" id="calificacion" name="calificacion" value="{{ old('calificacion') }}">
+                    @error('calificacion')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="editorial">Editorial</label>
+                    <input type="text" class="form-control @error('editorial') is-invalid @enderror" id="editorial" name="editorial" value="{{ old('editorial') }}">
+                    @error('editorial')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="fecha_publicacion">Fecha de Publicación</label>
+                    <input type="date" class="form-control @error('fecha_publicacion') is-invalid @enderror" id="fecha_publicacion" name="fecha_publicacion" value="{{ old('fecha_publicacion') }}">
+                    @error('fecha_publicacion')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="idioma">Idioma</label>
+                    <input type="text" class="form-control @error('idioma') is-invalid @enderror" id="idioma" name="idioma" value="{{ old('idioma') }}">
+                    @error('idioma')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="numero_paginas">Número de Páginas</label>
+                    <input type="number" min="1" class="form-control @error('numero_paginas') is-invalid @enderror" id="numero_paginas" name="numero_paginas" value="{{ old('numero_paginas') }}">
+                    @error('numero_paginas')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>

@@ -42,6 +42,9 @@ class LibroController extends Controller
     public function store(StoreLibroRequest $request)
     {
         $validated = $request->validated();
+        
+        // Asignar el mismo valor de cantidad a disponibles
+        $validated['disponibles'] = $validated['cantidad'];
 
         // Manejar la subida de la imagen
         if ($request->hasFile('imagen')) {

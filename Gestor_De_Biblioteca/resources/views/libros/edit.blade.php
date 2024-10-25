@@ -77,12 +77,52 @@
                     <label for="categoria_id">Categoría</label>
                     <select class="form-control @error('categoria_id') is-invalid @enderror" id="categoria_id" name="categoria_id" required>
                         @foreach($categorias as $categoria)
-                            <option value="{{ $categoria->id }}" {{ $libro->categoria_id == $categoria->id ? 'selected' : '' }}>
+                            <option value="{{ $categoria->id }}" {{ old('categoria_id', $libro->categoria_id) == $categoria->id ? 'selected' : '' }}>
                                 {{ $categoria->nombre }}
                             </option>
                         @endforeach
                     </select>
                     @error('categoria_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="calificacion">Calificación</label>
+                    <input type="number" step="0.1" min="0" max="5" class="form-control @error('calificacion') is-invalid @enderror" id="calificacion" name="calificacion" value="{{ old('calificacion', $libro->calificacion) }}">
+                    @error('calificacion')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="editorial">Editorial</label>
+                    <input type="text" class="form-control @error('editorial') is-invalid @enderror" id="editorial" name="editorial" value="{{ old('editorial', $libro->editorial) }}">
+                    @error('editorial')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="fecha_publicacion">Fecha de Publicación</label>
+                    <input type="date" class="form-control @error('fecha_publicacion') is-invalid @enderror" id="fecha_publicacion" name="fecha_publicacion" value="{{ old('fecha_publicacion', $libro->fecha_publicacion) }}">
+                    @error('fecha_publicacion')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="idioma">Idioma</label>
+                    <input type="text" class="form-control @error('idioma') is-invalid @enderror" id="idioma" name="idioma" value="{{ old('idioma', $libro->idioma) }}">
+                    @error('idioma')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="numero_paginas">Número de Páginas</label>
+                    <input type="number" min="1" class="form-control @error('numero_paginas') is-invalid @enderror" id="numero_paginas" name="numero_paginas" value="{{ old('numero_paginas', $libro->numero_paginas) }}">
+                    @error('numero_paginas')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>

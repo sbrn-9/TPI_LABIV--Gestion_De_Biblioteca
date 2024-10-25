@@ -26,6 +26,40 @@
                         <dt class="col-sm-3">Autor</dt>
                         <dd class="col-sm-9">{{$libro->autor}}</dd>
 
+                        <dt class="col-sm-3">Editorial</dt>
+                        <dd class="col-sm-9">{{$libro->editorial ?? 'No especificada'}}</dd>
+
+                        <dt class="col-sm-3">Fecha de Publicación</dt>
+                        <dd class="col-sm-9">{{$libro->fecha_publicacion ? date('d/m/Y', strtotime($libro->fecha_publicacion)) : 'No especificada'}}</dd>
+
+                        <dt class="col-sm-3">Idioma</dt>
+                        <dd class="col-sm-9">{{$libro->idioma ?? 'No especificado'}}</dd>
+
+                        <dt class="col-sm-3">Número de Páginas</dt>
+                        <dd class="col-sm-9">{{$libro->numero_paginas ?? 'No especificado'}}</dd>
+
+                        <dt class="col-sm-3">Calificación</dt>
+                        <dd class="col-sm-9">
+                            @if($libro->calificacion)
+                                <div class="d-flex align-items-center">
+                                    <span class="me-2">{{$libro->calificacion}} / 5 &nbsp;&nbsp;</span>
+                                    <div class="text-warning">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            @if($i <= $libro->calificacion)
+                                                <i class="fas fa-star"></i>
+                                            @elseif($i - 0.5 <= $libro->calificacion)
+                                                <i class="fas fa-star-half-alt"></i>
+                                            @else
+                                                <i class="far fa-star"></i>
+                                            @endif
+                                        @endfor
+                                    </div>
+                                </div>
+                            @else
+                                No calificado
+                            @endif
+                        </dd>
+
                         <dt class="col-sm-3">Descripción</dt>
                         <dd class="col-sm-9">{{$libro->descripcion}}</dd>
 
