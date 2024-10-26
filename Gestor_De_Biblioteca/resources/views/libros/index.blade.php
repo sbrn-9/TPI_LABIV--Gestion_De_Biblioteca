@@ -13,7 +13,8 @@
     <button id="detailButton" class="btn btn-secondary m-2" disabled>
         <i class="fas fa-eye"></i> Detalles
     </button>
-    <button id="editButton" class="btn btn-info m-2" disabled>
+
+    <button  id="editButton" class="btn btn-info m-2" disabled>
         <i class="fas fa-edit"></i> Editar
     </button>
     <button id="deleteButton" class="btn btn-danger m-2" disabled>
@@ -45,7 +46,7 @@
                             <th>Categoría</th>
                         </tr>
                     </thead>
-                   
+
                     <tbody>
                         @foreach ($libros as $libro)
                         <tr>
@@ -54,7 +55,7 @@
                             </td>
                             <td class="text-center">
                                 @if($libro->img_url)
-                                    <img src="{{ $libro->img_url }}" alt="Portada de {{ $libro->titulo }}" 
+                                    <img src="{{ $libro->img_url }}" alt="Portada de {{ $libro->titulo }}"
                                          class="img-thumbnail" style="max-height: 60px;">
                                 @else
                                     <span class="text-muted"><i class="fas fa-image fa-2x"></i></span>
@@ -122,18 +123,19 @@
             detailButton.onclick = () => window.location.href = `{{ url('libros') }}/${libroId}`;
             editButton.onclick = () => window.location.href = `{{ url('libros') }}/${libroId}/edit`;
             deleteButton.onclick = () => {
-                if (confirm('¿Estás seguro de que deseas eliminar este libro?')) {
-                    const form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = `{{ url('libros') }}/${libroId}`;
-                    form.innerHTML = `
-                        @csrf
-                        @method('DELETE')
-                    `;
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-            };
+    if (confirm('¿Estás seguro de que deseas eliminar este libro?')) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `{{ url('libros') }}/${libroId}/destroy`;
+        form.innerHTML = `
+            @csrf
+            @method('DELETE')
+        `;
+        document.body.appendChild(form);
+        form.submit();
+    }
+    };
+
         }
     }
 </script>

@@ -60,10 +60,18 @@
             <hr class="sidebar-divider">
 
             <li class="nav-item">
+
+                @if(Auth::user()->role->isAdmin())
                 <a class="nav-link" href="{{route('libros.index')}}">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Libros</span>
                 </a>
+                @else
+                <a class="nav-link" href="{{route('cliente-libros.index')}}">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Libros del Cliente</span>
+                </a>
+                @endif
             </li>
 
 
@@ -217,7 +225,8 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Holaa, {{ Auth::user()->name }}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    {{ Auth::check() ? 'Holaa, ' . Auth::user()->name : 'Bienvenido' }}</span>
 
                             </a>
                             <!-- Dropdown - User Information -->
