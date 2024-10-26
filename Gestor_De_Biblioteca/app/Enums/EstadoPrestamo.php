@@ -9,7 +9,7 @@ enum EstadoPrestamo: int
     case Cerrado = 2;
     case Atrasado = 3;
 
-    function isPendente(): bool
+    function isPendiente(): bool
     {
         return $this->value === self::Pendiente->value;
     }

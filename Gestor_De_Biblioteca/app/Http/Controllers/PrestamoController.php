@@ -20,7 +20,14 @@ class PrestamoController extends Controller
      */
     public function index()
     {
-        $prestamos = Prestamo::all();
+        if(auth::user()->role->isAdmin())
+        {
+            $prestamos = Prestamo::all();
+        }
+        elseif(auth::user()->role->isCliente())
+        {
+            $prestamos = Prestamo::where('cliente', auth::user()->id)->get();
+        }
         return view('prestamos.index', ['prestamos' => $prestamos]);
     }
 

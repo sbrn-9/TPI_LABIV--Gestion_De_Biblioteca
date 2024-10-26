@@ -11,7 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::rename('libros__prestados', 'libros_prestados');
     }
     /**
      * Reverse the migrations.
