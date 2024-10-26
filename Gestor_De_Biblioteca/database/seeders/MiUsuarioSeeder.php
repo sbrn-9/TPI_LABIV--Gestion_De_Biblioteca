@@ -18,12 +18,12 @@ class MiUsuarioSeeder extends Seeder
         /*
         ***************************COMPLETAR CON TUS DATOS*******************************
         */
-        User::factory()->create([
-                'name' => 'Sabrina Ayelen Arevalo',
-                'email' => 'sabrina@gmail.com',
-                'password' => Hash::make('12345678'),
-                'role' => TipoUsuario::Admin->value,
-            ]);
+        // User::factory()->create([
+        //         'name' => 'Sabrina Ayelen Arevalo',
+        //         'email' => 'sabrina@gmail.com',
+        //         'password' => Hash::make('12345678'),
+        //         'role' => TipoUsuario::Admin->value,
+        //     ]);
 
     }
 }

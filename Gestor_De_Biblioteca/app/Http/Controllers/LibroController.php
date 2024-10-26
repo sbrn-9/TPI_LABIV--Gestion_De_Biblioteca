@@ -6,9 +6,17 @@ use App\Models\Libro;
 use App\Http\Requests\StoreLibroRequest;
 use App\Http\Requests\UpdateLibroRequest;
 use App\Models\Categoria;
+use App\Services\ImgBBService;
 
 class LibroController extends Controller
 {
+    protected $imgBBService;
+
+    public function __construct(ImgBBService $imgBBService)
+    {
+        $this->imgBBService = $imgBBService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -34,15 +42,24 @@ class LibroController extends Controller
     public function store(StoreLibroRequest $request)
     {
         $validated = $request->validated();
+        
+        // Asignar el mismo valor de cantidad a disponibles
+        $validated['disponibles'] = $validated['cantidad'];
 
+        // Manejar la subida de la imagen
+        if ($request->hasFile('imagen')) {
+            $imageUrl = $this->imgBBService->uploadImage($request->file('imagen'));
+            if ($imageUrl) {
+                $validated['img_url'] = $imageUrl;
+            } else {
+                return back()->withErrors(['imagen' => 'Error al subir la imagen'])->withInput();
+            }
+        }
 
         Libro::create($validated);
 
         return redirect()->route('libros.index')->with('success', 'Libro creado exitosamente.');
-
     }
-
-
 
     /**
      * Display the specified resource.
@@ -66,18 +83,20 @@ class LibroController extends Controller
      */
     public function update(UpdateLibroRequest $request, Libro $libro)
     {
-
         $validated = $request->validated();
 
-        $libro->update([
-            'titulo' => $validated['titulo'],
-            'autor' => $validated['autor'],
-            'descripcion' => $validated['descripcion'],
-            'codigo' => $validated['codigo'],
-            'cantidad' => $validated['cantidad'],
-            'disponibles' => $validated['disponibles'],
-            'categoria_id' => $validated['categoria_id'],
-        ]);
+        // Manejar la subida de la imagen si se proporciona una nueva
+        if ($request->hasFile('imagen')) {
+            $imageUrl = $this->imgBBService->uploadImage($request->file('imagen'));
+            if ($imageUrl) {
+                $validated['img_url'] = $imageUrl;
+            } else {
+                return back()->withErrors(['imagen' => 'Error al subir la imagen'])->withInput();
+            }
+        }
+
+        $libro->update($validated);
+        
         return redirect()->route('libros.index')->with('success', 'Libro Actualizado Correctamente');
     }
 

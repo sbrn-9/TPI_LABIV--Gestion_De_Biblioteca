@@ -11,14 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::table('libros', function (Blueprint $table) {
+            $table->string('img_url', 500)->required();
+        });
     }
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::table('libros__prestados', function (Blueprint $table) {
-            //
+        Schema::table('libros', function (Blueprint $table) {
+            $table->dropColumn('img_url');
         });
     }
 };
