@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Enums\TipoUsuario;
 use Illuminate\Support\Facades\Auth;
 
+use function Laravel\Prompts\error;
+
 class IsRoleCliente
 {
     /**
@@ -25,7 +27,7 @@ class IsRoleCliente
         }
 
 
-            return redirect('https://www.youtube.com/watch?v=dQw4w9WgXcQ'); // Redirige a YouTube
+            return error("Usted no es cliente"); // Redirige a YouTube
 
     }
 }

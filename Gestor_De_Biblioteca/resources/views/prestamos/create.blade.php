@@ -40,40 +40,123 @@
                     @enderror
                 </div>
 
-                <h4>Libros a prestar:</h4>
-                <div class="container">
-                    <div class="row">
-                        @foreach ($libros as $libro)
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group p-3 rounded border shadow-sm bg-light">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <label class="font-weight-bold mb-0">{{ $libro->titulo }}</label>
-                                        <small class="text-muted">
-                                            ({{ $libro->disponibles }} {{ $libro->disponibles == 1 ? 'disponible' : 'disponibles' }})
-                                        </small>
-                                    </div>
-                                    <input type="hidden" name="libros[{{ $loop->index }}][libro_id]" value="{{ $libro->id }}">
-                                    <input type="number" 
-                                        class="form-control mt-2 w-50 @error('libros.'.$loop->index.'.cantidad') is-invalid @enderror" 
-                                        name="libros[{{ $loop->index }}][cantidad]" 
-                                        min="1" 
-                                        max="{{ $libro->disponibles }}"
-                                        value="{{ old('libros.' . $loop->index . '.cantidad') }}"
-                                        placeholder="Cantidad">
-                                    @error('libros.'.$loop->index.'.cantidad')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
+
+
+                <div class="form-group">
+                    <label for="buscarQuery">Buscar Libros:</label>
+                    <input type="text" name="query" id="buscarQuery" class="form-control mr-2" placeholder="Buscar libros...">
+                    <button type="button" id="buscarButton" class="btn btn-primary m-2">Buscar</button>
+                </div>
+
+                <div class="row" id="resultadosBusqueda">
+                    <!-- Resultados de la búsqueda se mostrarán aquí -->
+                </div>
+
+                <label>Libros a prestar:</label>
+
+                <table class="table table-striped" id="tablaLibros">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Libros seleccionados se agregarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+
+
+                <div id="librosSeleccionados">
+                    <!-- Libros seleccionados se agregarán aquí dinámicamente -->
                 </div>
 
                 <x-primary-button class="btn btn-primary">
                     {{ __('Guardar') }}
                 </x-primary-button>
+
             </form>
         </div>
     </div>
 </div>
+
+
+<script>
+    document.getElementById('buscarButton').addEventListener('click', function() {
+        var query = document.getElementById('buscarQuery').value.toLowerCase();
+        console.log('Buscando libros para:', query);
+
+        fetch(`/libro/buscar-libros?query=${encodeURIComponent(query)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Datos recibidos:', data);
+                var resultados = document.getElementById('resultadosBusqueda');
+                resultados.innerHTML = '';
+
+                if (data.length === 0) {
+                    resultados.innerHTML = '<p>No se encontraron libros.</p>';
+                } else {
+                    data.forEach(libro => {
+                        var titulo = libro.titulo.toLowerCase();
+                        if (titulo.includes(query)) {
+                            var card = document.createElement('div');
+                            card.className = 'col-md-6 mb-3';
+                            card.innerHTML = `
+                                <div class="card flex-row">
+                                    <img src="${libro.img_url}" class="card-img-left" alt="${libro.titulo}" style="width: 150px; height: auto;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${libro.titulo}</h5>
+                                        <p class="card-text">${libro.descripcion}</p>
+                                        <p class="text-muted">Disponibles: ${libro.disponibles}</p>
+                                        <div class="form-group">
+                                            <label for="cantidad-${libro.id}">Cantidad:</label>
+                                            <input type="number" id="cantidad-${libro.id}" class="form-control" min="1" max="${libro.disponibles}" value="1">
+                                        </div>
+                                        <a href="#" class="btn btn-primary add-to-prestamo" data-libro-id="${libro.id}" data-libro-titulo="${libro.titulo}" data-libro-disponibles="${libro.disponibles}">Agregar a Préstamo</a>
+                                    </div>
+                                </div>
+                            `;
+                            resultados.appendChild(card);
+                        }
+                    });
+
+                    document.querySelectorAll('.add-to-prestamo').forEach(button => {
+                        button.addEventListener('click', function(event) {
+                            event.preventDefault();
+                            const libroId = this.getAttribute('data-libro-id');
+                            const titulo = this.getAttribute('data-libro-titulo');
+                            const disponibles = parseInt(this.getAttribute('data-libro-disponibles'));
+                            const cantidad = parseInt(document.getElementById(`cantidad-${libroId}`).value);
+
+                            if (cantidad > disponibles) {
+                                alert(`La cantidad de libros solicitada (${cantidad}) supera a la cantidad disponible (${disponibles}).`);
+                            } else {
+                                var librosSeleccionados = document.getElementById('librosSeleccionados');
+                                librosSeleccionados.innerHTML += `
+                                    <input type="hidden" name="libros[${libroId}][libro_id]" value="${libroId}">
+                                    <input type="hidden" name="libros[${libroId}][cantidad]" value="${cantidad}">
+                                `;
+
+                                var tablaLibros = document.getElementById('tablaLibros').getElementsByTagName('tbody')[0];
+                                var fila = tablaLibros.insertRow();
+                                var celdaTitulo = fila.insertCell(0);
+                                var celdaCantidad = fila.insertCell(1);
+                                celdaTitulo.textContent = titulo;
+                                celdaCantidad.textContent = cantidad;
+                            }
+                        });
+                    });
+                }
+            })
+            .catch(error => console.error('Error al buscar libros:', error));
+    });
+    </script>
+
+
+
 @endsection

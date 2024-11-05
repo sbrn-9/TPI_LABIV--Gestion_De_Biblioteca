@@ -7,6 +7,8 @@ use App\Enums\TipoUsuario;
 
 use Closure;
 
+use function Laravel\Prompts\error;
+
 class IsRoleAdmin
 {
     public function handle($request, Closure $next)
@@ -17,7 +19,7 @@ class IsRoleAdmin
             return $next($request); // Permitimos la continuación solo si es admin
         }
 
-        return redirect('https://www.youtube.com/watch?v=dQw4w9WgXcQ'); // Redirige a YouTube
+        return error("Usted no es admin"); // Redirige a YouTube
 
     }
 }
