@@ -13,7 +13,7 @@ enum EstadoPrestamo: int
     case Rechazado = 5;
     case Aceptado = 6;
 
-    function isPendente(): bool
+    function isPendiente(): bool
     {
         return $this->value === self::Pendiente->value;
     }
