@@ -13,7 +13,7 @@ class IsRoleAdmin
 {
     public function handle($request, Closure $next)
     {
-        dd(Auth::user()->role);
+        //dd(Auth::user()->role);
 
         if (Auth::user()->role->value === TipoUsuario::Admin->value) {
             return $next($request); // Permitimos la continuación solo si es admin
