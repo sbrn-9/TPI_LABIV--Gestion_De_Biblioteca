@@ -8,7 +8,7 @@ enum EstadoPrestamo: int
     case Activo = 1;
     case Cerrado = 2;
     case Atrasado = 3;
-
+    case Cancelado = 4;
     function isPendiente(): bool
     {
         return $this->value === self::Pendiente->value;
@@ -25,5 +25,9 @@ enum EstadoPrestamo: int
     function isAtrasado(): bool
     {
         return $this->value === self::Atrasado->value;
+    }
+    function isCancelado(): bool
+    {
+        return $this->value === self::Cancelado->value;
     }
 }

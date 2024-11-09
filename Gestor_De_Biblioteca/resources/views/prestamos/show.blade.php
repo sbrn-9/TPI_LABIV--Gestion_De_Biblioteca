@@ -12,6 +12,7 @@
             <h5 class="card-subtitle text-muted">Cliente: {{$prestamo->propietario->name}}</h5>
         </div>
         <div class="card-body">
+            <p class="card-text"><strong>Estado:</strong> {{$prestamo->estado->name}}</p>
             <p class="card-text"><strong>Fecha de Préstamo:</strong> {{$prestamo->fecha_prestamo->format('d-M-y')}}</p>
             <p class="card-text"><strong>Fecha de Devolución:</strong> {{$prestamo->fecha_devolucion->format('d-M-y')}}</p>
             <h4>Libros:</h4>
@@ -32,16 +33,28 @@
         {{ session('error') }}
     </div>
     @endif
-
+    @if($prestamo->estado->isPendiente())
     <div class="mt-4 d-flex justify-content-between">
-        <a href="{{route('prestamos.edit', ['prestamo' => $prestamo->id])}}" class="btn btn-primary">
+        <a href="{{route('prestamos.edit', ['prestamo' => $prestamo->id])}}" class="btn btn-primary" >
             Editar
         </a>
-        <form action="{{ route('prestamos.destroy', $prestamo->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este préstamo?');">
-            @csrf
-            @method('DELETE')
+        @if (Auth::user()->role->isAdmin())
+            <form action="{{ route('prestamos.destroy', $prestamo->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este préstamo?');">
+                @csrf
+                @method('DELETE')
             <button type="submit" class="btn btn-danger">Eliminar</button>
-        </form>
+            </form>
+        @endif
     </div>
+    @elseif($prestamo->estado->isCerrado())
+        Ya no se puede Editar Pero puede pedir otro igual.
+        <div class="mt-4 d-flex justify-content-between">
+            <a href="#" class="btn btn-primary" >
+                Repetir Préstamo
+            </a>
+        </div>
+
+    @endif
+
 </div>
 @endsection

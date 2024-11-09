@@ -18,7 +18,6 @@ class IsRoleCliente
      */
     public function handle(Request $request, Closure $next): Response
     {
-        dd(Auth::user()->role);
 
         if (Auth::user()->role->isCliente()) {
             return $next($request); // Permitimos la continuación solo si es cliente
