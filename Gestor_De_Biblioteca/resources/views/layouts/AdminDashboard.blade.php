@@ -61,17 +61,25 @@
 
             <li class="nav-item">
 
+                @if(Auth::check())
                 @if(Auth::user()->role->isAdmin())
-                <a class="nav-link" href="{{route('libros.index')}}">
-                    <i class="fas fa-fw fa-book"></i>
-                    <span>Libros</span>
-                </a>
+                    <a class="nav-link" href="{{ route('libros.index') }}">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Libros</span>
+                    </a>
                 @else
-                <a class="nav-link" href="{{route('cliente-libros.index')}}">
-                    <i class="fas fa-fw fa-book"></i>
-                    <span>Libros del Cliente</span>
-                </a>
+                    <a class="nav-link" href="{{ route('cliente-libros.index') }}">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Libros del Cliente</span>
+                    </a>
                 @endif
+            @else
+                <a class="nav-link" href="{{ route('login') }}">
+                    <i class="fas fa-fw fa-sign-in-alt"></i>
+                    <span>Iniciar Sesión</span>
+                </a>
+            @endif
+
             </li>
 
 

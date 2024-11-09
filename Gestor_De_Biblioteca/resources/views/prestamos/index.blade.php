@@ -7,16 +7,22 @@
     <h1>Lista de Préstamos</h1>
 
     <a href="{{route('prestamos.create')}}" class="btn btn-primary m-2">
-        Nuevo Préstamo
+        <i class="fas fa-plus"></i> Nuevo Préstamo
     </a>
     <button id="detailButton" class="btn btn-secondary m-2" disabled>
-        Detalles
+        <i class="fas fa-eye"></i> Detalles
     </button>
     <button id="editButton" class="btn btn-info m-2" disabled>
-        Editar
+        <i class="fas fa-edit"></i> Editar
     </button>
+
+    <form id="deleteForm" action="" method="POST" style="display:none;">
+        @csrf
+        @method('DELETE')
+    </form>
+
     <button id="deleteButton" class="btn btn-danger m-2" disabled>
-        Eliminar
+        <i class="fas fa-trash"></i> Eliminar
     </button>
 
     @if(session('success'))
@@ -41,9 +47,10 @@
                             <th>Fecha Cancelacion</th>
                             <th>Fecha Devolución</th>
                             <th>Fecha Modificacion</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
-                   
+
                     <tbody>
                         @foreach ($prestamos as $prestamo)
                         <tr>
@@ -55,8 +62,38 @@
                             <td>{{ $prestamo->canceled_at }}</td>
                             <td>{{ $prestamo->fecha_devolucion }}</td>
                             <td>{{ $prestamo->updated_at}}</td>
-                        </tr>
-                        @endforeach
+                            <td>
+
+                                <form action="{{ route('prestamos.updateEstado', $prestamo->id) }}" method="POST" style="display:flex;">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="estado" value="aceptado">
+                                    <button type="submit" class="btn btn-success m-2">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </form>
+
+                                <form action="{{ route('prestamos.updateEstado', $prestamo->id) }}" method="POST" style="display:flex;">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="estado" value="cancelado">
+                                    <button type="submit" class="btn btn-warning m-2">
+                                        <i class="fas fa-ban"></i>
+                                    </button>
+                                </form>
+
+                                <form action="{{ route('prestamos.updateEstado', $prestamo->id) }}" method="POST" style="display:flex;">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="estado" value="rechazado">
+                                    <button type="submit" class="btn btn-danger m-2">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </form>
+
+                </td>
+
+             @endforeach
 
                     </tbody>
                 </table>
@@ -67,31 +104,35 @@
 </div>
 
 <script>
-    let lastCheckedRadio = null;
+let lastCheckedRadio = null;
+function toggleButtons(radio) {
+    const detailButton = document.getElementById('detailButton');
+    const editButton = document.getElementById('editButton');
+    const deleteButton = document.getElementById('deleteButton');
+    const deleteForm = document.getElementById('deleteForm');
 
-    function toggleButtons(radio) {
-        const detailButton = document.getElementById('detailButton');
-        const editButton = document.getElementById('editButton');
-        const deleteButton = document.getElementById('deleteButton');
-
-        if (lastCheckedRadio === radio) {
-            radio.checked = false;
-            lastCheckedRadio = null;
-            detailButton.disabled = true;
-            editButton.disabled = true;
-            deleteButton.disabled = true;
+    if (lastCheckedRadio === radio) {
+        radio.checked = false;
+        lastCheckedRadio = null;
+        detailButton.disabled = true;
+        editButton.disabled = true;
+        deleteButton.disabled = true;
         } else {
             lastCheckedRadio = radio;
             const prestamoId = radio.value;
             detailButton.disabled = false;
             editButton.disabled = false;
             deleteButton.disabled = false;
-
             detailButton.onclick = () => window.location.href = `{{ url('prestamos') }}/${prestamoId}`;
             editButton.onclick = () => window.location.href = `{{ url('prestamos') }}/${prestamoId}/edit`;
-            deleteButton.onclick = () => window.location.href = `{{ url('prestamos') }}/${prestamoId}/destroy`;
+            deleteButton.onclick = () => {
+                if (confirm('¿Estás seguro de que deseas eliminar este prestamo?')) {
+                deleteForm.action = `{{ url('prestamos') }}/${prestamoId}`;
+                deleteForm.submit();
+                }
+            };
         }
-    }
+        }
 </script>
 
 @endsection

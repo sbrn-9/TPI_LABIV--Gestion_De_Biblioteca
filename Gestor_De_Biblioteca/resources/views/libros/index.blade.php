@@ -17,6 +17,12 @@
     <button  id="editButton" class="btn btn-info m-2" disabled>
         <i class="fas fa-edit"></i> Editar
     </button>
+
+     <form id="deleteForm" action="" method="POST" style="display:none;">
+        @csrf
+        @method('DELETE')
+    </form>
+
     <button id="deleteButton" class="btn btn-danger m-2" disabled>
         <i class="fas fa-trash"></i> Eliminar
     </button>
@@ -123,18 +129,11 @@
             detailButton.onclick = () => window.location.href = `{{ url('libros') }}/${libroId}`;
             editButton.onclick = () => window.location.href = `{{ url('libros') }}/${libroId}/edit`;
             deleteButton.onclick = () => {
-    if (confirm('¿Estás seguro de que deseas eliminar este libro?')) {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = `{{ url('libros') }}/${libroId}/destroy`;
-        form.innerHTML = `
-            @csrf
-            @method('DELETE')
-        `;
-        document.body.appendChild(form);
-        form.submit();
-    }
-    };
+                if (confirm('¿Estás seguro de que deseas eliminar este libro?')) {
+                deleteForm.action = `{{ url('libros') }}/${libroId}`;
+                deleteForm.submit();
+                }
+            };
 
         }
     }

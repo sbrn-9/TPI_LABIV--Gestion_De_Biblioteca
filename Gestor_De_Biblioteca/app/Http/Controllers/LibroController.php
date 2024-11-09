@@ -7,6 +7,7 @@ use App\Http\Requests\StoreLibroRequest;
 use App\Http\Requests\UpdateLibroRequest;
 use App\Models\Categoria;
 use App\Services\ImgBBService;
+use Illuminate\Http\Request;
 
 class LibroController extends Controller
 {
@@ -42,7 +43,7 @@ class LibroController extends Controller
     public function store(StoreLibroRequest $request)
     {
         $validated = $request->validated();
-        
+
         // Asignar el mismo valor de cantidad a disponibles
         $validated['disponibles'] = $validated['cantidad'];
 
@@ -96,7 +97,7 @@ class LibroController extends Controller
         }
 
         $libro->update($validated);
-        
+
         return redirect()->route('libros.index')->with('success', 'Libro Actualizado Correctamente');
     }
 
@@ -109,4 +110,21 @@ class LibroController extends Controller
 
         return redirect()->route('libros.index')->with('success', 'Libro Eliminado');
     }
+
+    public function searchBooks(Request $request)
+    {
+
+
+        $query = $request->input('query');
+        $libros = [];
+
+        if ($query) {
+            $libros = Libro::where('titulo', 'like', "%$query%")->get();
+        }
+
+        return response()->json($libros);
+    }
+
+
+
 }

@@ -12,7 +12,7 @@ use App\Models\Libros_Prestados;
 use App\UpdateLibros;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Http\Request;
 class PrestamoController extends Controller
 {
     /**
@@ -170,4 +170,24 @@ class PrestamoController extends Controller
 
         return redirect()->route('prestamos.index')->with('success', 'Prestamo Eliminado');
     }
+
+    public function updateEstado(Request $request, $id): RedirectResponse
+    {
+        $prestamo = Prestamo::findOrFail($id);
+
+        $estado = match ($request->estado) {
+            'cerrado' => EstadoPrestamo::Cerrado->value,
+            'activo' => EstadoPrestamo::Activo->value,
+            'cancelado' => EstadoPrestamo::Cancelado->value,
+            default => EstadoPrestamo::Pendiente->value,
+        };
+
+        $prestamo->estado = $estado;
+        $prestamo->save();
+
+        return redirect()->route('prestamos.index')
+            ->with('success', 'Estado del préstamo: actualizado correctamente');
+    }
+
+
 }
