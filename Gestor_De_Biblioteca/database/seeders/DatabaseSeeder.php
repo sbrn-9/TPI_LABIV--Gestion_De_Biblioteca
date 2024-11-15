@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             LibroSeeder::class,
             ClientesSeeder::class,
             PrestamosSeeder::class,
+            Libros_PrestadosSeeder::class
         ]);
 
     }
