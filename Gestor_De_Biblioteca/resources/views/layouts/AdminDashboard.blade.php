@@ -51,9 +51,15 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="{{route('prestamos.index')}}">
-                    <i class="fas fa-fw fa-home"></i>
-                    <span>Mis préstamos</span></a>
+                @if (Auth::user()->role->isAdmin())
+                    <a class="nav-link" href="{{route('prestamos.index')}}">
+                        <i class="fas fa-fw fa-home"></i>
+                        <span>Préstamos</span></a>
+                @else
+                    <a class="nav-link" href="{{route('cliente-prestamos.index')}}">
+                        <i class="fas fa-fw fa-home"></i>
+                        <span>Mis préstamos</span></a>
+                @endif
             </li>
 
             <!-- Divider -->
@@ -104,10 +110,10 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Informe</h6>
-                        <a class="collapse-item" href="{{route('welcome')}}">Resumen de prestamos</a>
+                        <a class="collapse-item" href="{{route('informe.index')}}">Estadísticas</a>
                         <a class="collapse-item" href="{{route('welcome')}}">Prestamos activos</a>
-                        <a class="collapse-item" href="{{route('welcome')}}">algo1</a>
-                        <a class="collapse-item" href="{{route('welcome')}}">algo2</a>
+                        <a class="collapse-item" href="{{route('welcome')}}">Libros</a>
+                        <a class="collapse-item" href="{{route('welcome')}}">Clientes</a>
                     </div>
                 </div>
             </li>
@@ -338,6 +344,8 @@
     <!-- Page level custom scripts -->
     <script src="{{asset('asset/js/chart-area-demo.js')}}"></script>
     <script src="{{asset('assets/js/chart-pie-demo.js')}}"></script>
+    <script src="{{asset('assets/js/chart-bar-demo.js')}}"></script>
+
 
  {{--  --}}
     <script>
