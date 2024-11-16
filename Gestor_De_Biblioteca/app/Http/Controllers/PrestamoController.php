@@ -176,9 +176,9 @@ class PrestamoController extends Controller
         $prestamo = Prestamo::findOrFail($id);
 
         $estado = match ($request->estado) {
-            'aceptado' => EstadoPrestamo::Aceptado->value,
+            'cerrado' => EstadoPrestamo::Cerrado->value,
+            'activo' => EstadoPrestamo::Activo->value,
             'cancelado' => EstadoPrestamo::Cancelado->value,
-            'rechazado' => EstadoPrestamo::Rechazado->value,
             default => EstadoPrestamo::Pendiente->value,
         };
 

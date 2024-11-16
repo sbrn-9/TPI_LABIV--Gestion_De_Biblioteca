@@ -3,6 +3,7 @@
 use App\Http\Controllers\LibroController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PrestamoController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsRoleCliente;
 use App\Http\Middleware\IsRoleAdmin;
@@ -22,14 +23,12 @@ Route::middleware('auth')->middleware(IsRoleAdmin::class)->group(function () {
     Route::resource('libros', LibroController::class)->withTrashed();
     Route::resource('prestamos', PrestamoController::class)->withTrashed();
     Route::patch('/prestamos/{id}/estado', [PrestamoController::class, 'updateEstado'])->name('prestamos.updateEstado');
-
+    Route::resource('users', UserController::class); // Agregando rutas de usuarios
 });
 
 Route::middleware('auth')->middleware(IsRoleCliente::class)->group(function () {
     Route::get('/cliente/libros', [LibroController::class, 'index'])->name('cliente-libros.index');
     Route::get('/cliente/libros/{libro}', [PrestamoController::class, 'show'])->name('cliente-libros.show');
-
-
 });
 
 require __DIR__ . '/auth.php';

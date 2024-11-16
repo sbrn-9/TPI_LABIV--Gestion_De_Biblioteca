@@ -85,11 +85,12 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="{{route('welcome')}}">
+                @if(Auth::check() && Auth::user()->role->isAdmin())
+                <a class="nav-link" href="{{ route('users.index') }}">
                     <i class="fas fa-fw fa-user"></i>  <!--Cambiar el el icono a user-->
                     <span>Usuarios</span>
                 </a>
-
+                @endif
             </li>
 
             <!-- Nav Item - Charts -->

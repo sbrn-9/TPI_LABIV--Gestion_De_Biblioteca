@@ -18,18 +18,11 @@ class DatabaseSeeder extends Seeder
         ************************DESCOMENTAR LO DE ABAJO PARA LA PRIMERA VEZ***********************************
         */
         $this->call([
-            //CategoriaSeeder::class,
-            //LibroSeeder::class,
-            //MiUsuarioSeeder::class
+            LibroSeeder::class,
+            ClientesSeeder::class,
+            PrestamosSeeder::class,
+            Libros_PrestadosSeeder::class
         ]);
 
-        // Prestamo::create(
-        //     [
-        //         'estado' => 1,
-        //         'fecha_prestamo' => now(),
-        //         'fecha_devolucion' => now()->addDays(4),
-        //         'cliente' => 2
-        //      ]
-        //     );
     }
 }

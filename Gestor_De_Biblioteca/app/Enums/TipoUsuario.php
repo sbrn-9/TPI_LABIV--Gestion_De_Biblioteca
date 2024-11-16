@@ -16,4 +16,11 @@ enum TipoUsuario: int
 	{
 		return $this->value === self::Cliente->value;
 	}
+	public function getNombreTipo(): string
+{
+	return match($this) {
+		self::Admin => 'Administrador',
+		self::Cliente => 'Cliente',
+	};
+}
 }

@@ -13,7 +13,7 @@
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
       defer
     ></script>
-    <script src="{{asset('assets/js/init-alpine')}}"></script>
+    <script src="{{asset('assets/js/init-alpine.js')}}"></script>
   </head>
   <body>
     <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
@@ -53,10 +53,9 @@
                   placeholder="ejemplo@gmail.com"
                   id="email"
                   type="email"
-                  name="email" :value="old('email')
-                  autocomplete= "off"
+                  name="email"
+                  value="{{old('email')}}"
                   required
-
                 />
               </label>
               <label class="block mt-4 text-sm">
