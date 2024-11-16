@@ -89,6 +89,7 @@
         {{ session('error') }}
     </div>
     @endif
+    @if(Auth::check() && Auth::user()->role->isAdmin())
 
     <div class="mt-4 d-flex justify-content-between">
         <a href="{{route('libros.edit', ['libro' => $libro->id])}}" class="btn btn-primary">
@@ -102,5 +103,7 @@
             </button>
         </form>
     </div>
+    @endif
+
 </div>
 @endsection

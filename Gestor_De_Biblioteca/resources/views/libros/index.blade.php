@@ -7,12 +7,18 @@
     <!-- Page Heading -->
     <h1>Libros</h1>
 
+    @if(Auth::check() && Auth::user()->role->isAdmin())
+
     <a href="{{route('libros.create')}}" class="btn btn-primary m-2">
         <i class="fas fa-plus"></i> Nuevo Libro
     </a>
+  
+    @endif
+
     <button id="detailButton" class="btn btn-secondary m-2" disabled>
         <i class="fas fa-eye"></i> Detalles
     </button>
+    @if(Auth::check() && Auth::user()->role->isAdmin())
 
     <button  id="editButton" class="btn btn-info m-2" disabled>
         <i class="fas fa-edit"></i> Editar
@@ -26,6 +32,7 @@
     <button id="deleteButton" class="btn btn-danger m-2" disabled>
         <i class="fas fa-trash"></i> Eliminar
     </button>
+    @endif
 
     @if(session('success'))
     <div class="alert alert-success">
@@ -112,23 +119,30 @@
         const detailButton = document.getElementById('detailButton');
         const editButton = document.getElementById('editButton');
         const deleteButton = document.getElementById('deleteButton');
+            // Create invisible elements if they don't exist
+            if (!detailButton) {
+                detailButton = document.createElement('button');
+                detailButton.style.display = 'none';
+                document.body.appendChild(detailButton);
+            }
+
 
         if (lastCheckedRadio === radio) {
             radio.checked = false;
             lastCheckedRadio = null;
             detailButton.disabled = true;
-            editButton.disabled = true;
-            deleteButton.disabled = true;
+            if (editButton) editButton.disabled = true;
+            if (deleteButton) deleteButton.disabled = true;
         } else {
             lastCheckedRadio = radio;
             const libroId = radio.value;
             detailButton.disabled = false;
-            editButton.disabled = false;
-            deleteButton.disabled = false;
+            if (editButton) editButton.disabled = false;
+            if (deleteButton) deleteButton.disabled = false;
 
             detailButton.onclick = () => window.location.href = `{{ url('libros') }}/${libroId}`;
-            editButton.onclick = () => window.location.href = `{{ url('libros') }}/${libroId}/edit`;
-            deleteButton.onclick = () => {
+            if (editButton) editButton.onclick = () => window.location.href = `{{ url('libros') }}/${libroId}/edit`;
+            if (deleteButton) deleteButton.onclick = () => {
                 if (confirm('¿Estás seguro de que deseas eliminar este libro?')) {
                 deleteForm.action = `{{ url('libros') }}/${libroId}`;
                 deleteForm.submit();

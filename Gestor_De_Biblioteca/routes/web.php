@@ -17,10 +17,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/libro/buscar-libros', [LibroController::class, 'searchBooks'])->name('libro.buscar-libros');
+    Route::resource('libros', LibroController::class)->withTrashed();
+
 });
 
 Route::middleware('auth')->middleware(IsRoleAdmin::class)->group(function () {
-    Route::resource('libros', LibroController::class)->withTrashed();
     Route::resource('prestamos', PrestamoController::class)->withTrashed();
     Route::patch('/prestamos/{id}/estado', [PrestamoController::class, 'updateEstado'])->name('prestamos.updateEstado');
     Route::resource('users', UserController::class); // Agregando rutas de usuarios
