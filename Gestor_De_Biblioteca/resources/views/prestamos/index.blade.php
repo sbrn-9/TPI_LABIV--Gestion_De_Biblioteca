@@ -52,6 +52,8 @@
                     </thead>
 
                     <tbody>
+                        @isset($prestamos)
+
                         @foreach ($prestamos as $prestamo)
                         <tr>
                             <td class="text-center"><input type="radio" name="selectedPrestamo" value="{{ $prestamo->id }}" onclick="toggleButtons(this)"></td>
@@ -93,7 +95,11 @@
 
                 </td>
 
-             @endforeach
+
+                @endforeach
+
+                @endisset
+
 
                     </tbody>
                 </table>
