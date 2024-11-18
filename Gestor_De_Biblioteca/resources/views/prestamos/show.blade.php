@@ -61,23 +61,41 @@
     @if($prestamo->estado->isPendiente())
     <div class="mt-4 d-flex justify-content-between">
         <a href="{{route('prestamos.edit', ['prestamo' => $prestamo->id])}}" class="btn btn-primary" >
-            Editar
+            <i class="fas fa-edit"></i> Editar
         </a>
         @if (Auth::user()->role->isAdmin())
-            <form action="{{ route('prestamos.destroy', $prestamo->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este préstamo?');">
+            <form action="{{ route('prestamos.activar', $prestamo->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de activar este préstamo?');">
                 @csrf
-                @method('DELETE')
-            <button type="submit" class="btn btn-danger">Eliminar</button>
+                @method('PATCH')
+
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-check"></i>
+                    Activar
+                </button>
+            </form>
+            <form action="{{ route('prestamos.cancelar', $prestamo->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de cancelar este préstamo?');">
+                @csrf
+                @method('PATCH')
+            <button type="submit" class="btn btn-warning"><i class="fa fa-trash"></i> Cancelar</button>
+            </form>
+        @elseif(Auth::user()->role->isCliente())
+            <form action="{{ route('cliente-prestamos.cancelar', $prestamo->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de cancelar este préstamo?');">
+                @csrf
+                @method('PATCH')
+            <button type="submit" class="btn btn-warning"><i class="fa fa-trash"></i> Cancelar</button>
             </form>
         @endif
     </div>
-    @elseif($prestamo->estado->isCerrado())
-        Ya no se puede Editar Pero puede pedir otro igual.
-        <div class="mt-4 d-flex justify-content-between">
-            <a href="#" class="btn btn-primary" >
-                Repetir Préstamo
-            </a>
-        </div>
+    @elseif($prestamo->estado->isActivo() && Auth::user()->role->isAdmin())
+        <form action="{{ route('prestamos.cerrar', $prestamo->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de cerrar este préstamo?');">
+            @csrf
+            @method('PATCH')
+
+            <button type="submit" class="btn btn-danger">
+                <i class="fa fa-times"></i>
+                Cerrar
+            </button>
+        </form>
 
     @endif
 
