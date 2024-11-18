@@ -135,19 +135,11 @@ public function store(StorePrestamoRequest $request)
 
         $validatedData = $request->validated();
 
-         if($validatedData['fecha_prestamo'] > today()){
-             $estado= EstadoPrestamo::Pendiente->value;
-         }
-         else{
-             $estado = EstadoPrestamo::Activo->value;
-         }
-
-         $prestamo->update([
-             'fecha_prestamo' => $validatedData['fecha_prestamo'],
-             'fecha_devolucion' => $validatedData['fecha_devolucion'],
-             'estado' => $estado,
-             'admin_modificador' => auth::user()->id,
-         ]);
+        $prestamo->update([
+            'fecha_prestamo' => $validatedData['fecha_prestamo'],
+            'fecha_devolucion' => $validatedData['fecha_devolucion'],
+            'admin_modificador' => auth::user()->id,
+        ]);
 
         $librosPrestados = Libros_Prestados::where('prestamo_id', $prestamo->id)->get();
 
@@ -160,7 +152,6 @@ public function store(StorePrestamoRequest $request)
             else{
                 $cantidadAnterior = (int)$registro['cantidad'];
                 $registro->update([
-                    'estado' => $estado,
                     'libro_id' => $validatedData['libros'][$index]['libro_id'], // id del libro actual
                     'cantidad' => $validatedData['libros'][$index]['cantidad'], // cantidad pedida
                 ]);
@@ -193,22 +184,71 @@ public function store(StorePrestamoRequest $request)
         return redirect()->route('prestamos.index')->with('success', 'Prestamo Eliminado');
     }
 
-    public function updateEstado(Request $request, $id): RedirectResponse
+    public function cancelarPrestamo(Request $request, $id): RedirectResponse
     {
         $prestamo = Prestamo::findOrFail($id);
+        $libros = Libros_Prestados::where('prestamo_id', $prestamo->id)->get();
 
-        $estado = match ($request->estado) {
-            'cerrado' => EstadoPrestamo::Cerrado->value,
-            'activo' => EstadoPrestamo::Activo->value,
-            'cancelado' => EstadoPrestamo::Cancelado->value,
-            default => EstadoPrestamo::Pendiente->value,
-        };
+        if($request->estado == EstadoPrestamo::Cancelado->value){
 
-        $prestamo->estado = $estado;
+            $prestamo->estado = EstadoPrestamo::Cancelado->value;
+
+            foreach($libros as $info){
+                UpdateLibros::DevolverLibros($info->libro_id, $info->cantidad);
+                $info->estado = EstadoPrestamo::Cancelado->value;
+                $info->delete();
+            }
+
+            $prestamo->canceled_at = today();
+            if(auth::user()->role->isAdmin()){$prestamo->admin_cancelador = auth::user()->id;}
+        }
+
         $prestamo->save();
 
         return redirect()->route('prestamos.index')
-            ->with('success', 'Estado del préstamo: actualizado correctamente');
+            ->with('success', 'Préstamo: Cancelado correctamente');
+    }
+    public function activarPrestamo(Request $request, $id)
+    {
+        $prestamo = Prestamo::findOrFail($id);
+        $libros = Libros_Prestados::where('prestamo_id', $prestamo->id)->get();
+        if($request->estado == EstadoPrestamo::Activo->value){
+            $prestamo->estado = EstadoPrestamo::Activo->value;
+            foreach($libros as $info){
+                $info->estado = EstadoPrestamo::Activo->value;
+            }
+            $prestamo->admin_activador = auth::user()->id;
+        }
+        else
+        {
+            return redirect()->route('prestamos.index');
+        }
+
+        $prestamo->save();
+        return redirect()->route('prestamos.index')
+        ->with('success', 'Préstamo Activado correctamente');
+    }
+    public function cerrarPrestamo(Request $request, $id)
+    {
+        $prestamo = Prestamo::findOrFail($id);
+
+        $libros = Libros_Prestados::where('prestamo_id', $prestamo->id)->get();
+
+        if($request->estado == EstadoPrestamo::Cerrado->value)  {
+
+            $prestamo->estado = EstadoPrestamo::Cerrado->value;
+            foreach($libros as $info){
+                UpdateLibros::DevolverLibros($info->libro_id, $info->cantidad);
+                $info->estado = EstadoPrestamo::Cerrado->value;
+                $info->delete();
+            }
+            $prestamo->fecha_devolucion = today();
+            $prestamo->admin_eliminador = auth::user()->id;
+        }
+        $prestamo->save();
+
+        return redirect()->route('prestamos.index')
+            ->with('success', 'Prestamo Cerrado correctamente');
     }
 
 
