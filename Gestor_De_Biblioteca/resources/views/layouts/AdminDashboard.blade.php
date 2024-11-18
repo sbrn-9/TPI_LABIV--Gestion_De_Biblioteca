@@ -88,37 +88,28 @@
 
             </li>
 
-
+            @if(Auth::check() && Auth::user()->role->isAdmin())
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                @if(Auth::check() && Auth::user()->role->isAdmin())
                 <a class="nav-link" href="{{ route('users.index') }}">
                     <i class="fas fa-fw fa-user"></i>  <!--Cambiar el el icono a user-->
                     <span>Usuarios</span>
                 </a>
-                @endif
             </li>
-            @if(Auth::check() )
-            <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="{{route('welcome')}}" data-toggle="collapse" data-target="#collapsePages"
                 aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Informes</span></a>
-
-                    {{-- Agregar lista de informes --}}
                     <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-
                         <a class="collapse-item" href="{{route('informes.negocio')}}">Negocio</a>
                         <a class="collapse-item" href="{{route('informes.control')}}">Control</a>
                     </div>
                 </div>
             </li>
             @endif
-            <!-- Nav Item - Tables -->
-
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
