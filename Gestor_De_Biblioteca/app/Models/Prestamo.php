@@ -25,8 +25,7 @@ class Prestamo extends Model
         return [
             'fecha_prestamo' => 'datetime',
             'fecha_devolucion' => 'datetime',
-            'fecha_modificación' => 'datetime',
-            'fecha_cancelación' => 'datetime',
+            'canceled_at' => 'datetime',
             'estado' => EstadoPrestamo::class
         ];
     }
