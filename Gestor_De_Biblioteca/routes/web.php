@@ -20,6 +20,15 @@ Route::middleware('auth')->group(function () {
     Route::resource('libros', LibroController::class)->withTrashed();
 
 });
+Route::middleware('auth')->middleware(IsRoleCliente::class)->group(function () {
+    Route::get('/cliente/libros', [LibroController::class, 'index'])->name('cliente-libros.index');
+    Route::get('/cliente/libros/{libro}', [PrestamoController::class, 'show'])->name('cliente-libros.show');
+    Route::get('/cliente/prestamos', [PrestamoController::class, 'index'])->name('cliente-prestamos.index');
+    Route::get('/cliente/prestamos/{prestamo}', [PrestamoController::class, 'show'])->name('cliente-prestamos.show');
+    Route::get('/cliente/prestamo/create', [PrestamoController::class, 'create'])->name('cliente-prestamos.create');
+    Route::post('/cliente/prestamos/guardar', [PrestamoController::class, 'store'])->name('cliente-prestamos.store');
+    Route::patch('/cliente/prestamos/{id}/estado', [PrestamoController::class, 'updateEstado'])->name('cliente-prestamos.updateEstado');
+});
 
 Route::middleware('auth')->middleware(IsRoleAdmin::class)->group(function () {
     Route::resource('prestamos', PrestamoController::class)->withTrashed();
@@ -27,9 +36,7 @@ Route::middleware('auth')->middleware(IsRoleAdmin::class)->group(function () {
     Route::resource('users', UserController::class); // Agregando rutas de usuarios
 });
 
-Route::middleware('auth')->middleware(IsRoleCliente::class)->group(function () {
-    Route::get('/cliente/libros', [LibroController::class, 'index'])->name('cliente-libros.index');
-    Route::get('/cliente/libros/{libro}', [PrestamoController::class, 'show'])->name('cliente-libros.show');
-});
+
+
 
 require __DIR__ . '/auth.php';

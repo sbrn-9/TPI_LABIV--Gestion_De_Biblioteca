@@ -12,3 +12,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::command('app:actualizar-prestamo-atrasado')->daily();
+

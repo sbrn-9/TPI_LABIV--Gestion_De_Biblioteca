@@ -44,46 +44,53 @@ class PrestamoController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StorePrestamoRequest $request): RedirectResponse
-    {
-        //valida en StorePrestamoRequest y llega aqui
-        $validatedData = $request->validated();
+{
+    // valida en StorePrestamoRequest y llega aquí
+    $validatedData = $request->validated();
 
-        //logica estado
-        if($validatedData['fecha_prestamo'] > today()){
-            $estado = EstadoPrestamo::Pendiente->value;
-        }else{
-            $estado = EstadoPrestamo::Activo->value;}
+    // lógica de estado: "Pendiente" si es cliente, "Activo" si es admin (por defecto)
+    $usuario = auth::user();
+    if ($usuario->role->isAdmin()) {
+        $estado = EstadoPrestamo::Activo->value;
+    } else {
+        $estado = EstadoPrestamo::Pendiente->value;
+    }
 
-        //crea el prestamo en la bd con los campos necesarios
-        $prestamo = Prestamo::create([
-            'estado' => $estado,
-            'fecha_prestamo' => $validatedData['fecha_prestamo'],
-            'fecha_devolucion' => $validatedData['fecha_devolucion'],
-            'cliente' => auth::user()->id, //el usuario que esta activo
-        ]);
+    // crea el préstamo en la base de datos con los campos necesarios
+    $prestamo = Prestamo::create([
+        'estado' => $estado,
+        'fecha_prestamo' => $validatedData['fecha_prestamo'],
+        'fecha_devolucion' => $validatedData['fecha_devolucion'],
+        'cliente' => $usuario->id, // el usuario que está activo
+    ]);
 
-        //crea los libros prestados
-        foreach($validatedData['libros'] as $libro){//recorre el array de libros
+    // crea los libros prestados
+    foreach ($validatedData['libros'] as $libro) { // recorre el array de libros
+        if ($libro['cantidad'] != null // que tengan un valor en cantidad
+            && $libro['cantidad'] > 0) { // que sea mayor a 0
 
-            if($libro['cantidad'] != null //que tengan un valor en cantidad
-                && $libro['cantidad'] > 0 ){ //que sea mayor a 0
-
-            Libros_Prestados::create([//crea el registro
+            Libros_Prestados::create([ // crea el registro
                 'estado' => $estado,
-                'prestamo_id' => $prestamo->id, //id del prestamo creado
+                'prestamo_id' => $prestamo->id, // id del préstamo creado
                 'libro_id' => $libro['libro_id'], // id del libro actual
                 'cantidad' => $libro['cantidad'], // cantidad pedida
             ]);
 
             UpdateLibros::DescontarLibros($libro['libro_id'], $libro['cantidad']);
-            }
         }
-
-
-        return redirect()->route('prestamos.index')
-        ->with('success', 'El prestamo se ha creado correctamente');
-
     }
+
+    if(Auth::user()->role->isAdmin()){
+        return redirect()->route('prestamos.index')
+            ->with('success', 'El préstamo se ha creado correctamente');
+    }
+    else{
+        return redirect()->route('cliente-prestamos.index')
+            ->with('success', 'El préstamo del cliente se ha creado correctamente');
+    }
+
+}
+
 
     /**
      * Display the specified resource.
@@ -185,8 +192,16 @@ class PrestamoController extends Controller
         $prestamo->estado = $estado;
         $prestamo->save();
 
-        return redirect()->route('prestamos.index')
-            ->with('success', 'Estado del préstamo: actualizado correctamente');
+        if(Auth::user()->role->isAdmin()){
+            return redirect()->route('prestamos.index')
+                ->with('success', 'Estado del préstamo: actualizado correctamente');
+        }
+        else{
+            return redirect()->route('cliente-prestamos.index')
+                ->with('success', 'Estado del préstamo del cliente: actualizado correctamente');
+        }
+
+
     }
 
 

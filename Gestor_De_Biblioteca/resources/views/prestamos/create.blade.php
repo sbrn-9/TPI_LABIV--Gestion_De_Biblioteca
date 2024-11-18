@@ -21,7 +21,72 @@
                 </div>
             @endif
 
+            @if(Auth::user()->role->isAdmin())
+
             <form action="{{ route('prestamos.store') }}" method="POST">
+                @csrf
+
+                <div class="form-group">
+                    <label for="buscarQuery">Buscar Cliente:</label>
+                    <input type="text" name="query" id="buscarQuery" class="form-control mr-2" placeholder="Buscar libros...">
+                    <button type="button" id="buscarButton" class="btn btn-primary m-2">Buscar</button>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="fecha_prestamo">Fecha de Préstamo</label>
+                    <input type="date" class="form-control @error('fecha_prestamo') is-invalid @enderror" id="fecha_prestamo" name="fecha_prestamo" value="{{ old('fecha_prestamo') }}" required>
+                    @error('fecha_prestamo')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="fecha_devolucion">Fecha de Devolución</label>
+                    <input type="date" class="form-control @error('fecha_devolucion') is-invalid @enderror" id="fecha_devolucion" name="fecha_devolucion" value="{{ old('fecha_devolucion') }}" required>
+                    @error('fecha_devolucion')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+
+
+                <div class="form-group">
+                    <label for="buscarQuery">Buscar Libros:</label>
+                    <input type="text" name="query" id="buscarQuery" class="form-control mr-2" placeholder="Buscar libros...">
+                    <button type="button" id="buscarButton" class="btn btn-primary m-2">Buscar</button>
+                </div>
+
+                <div class="row" id="resultadosBusqueda">
+                    <!-- Resultados de la búsqueda se mostrarán aquí -->
+                </div>
+
+                <label>Libros a prestar:</label>
+
+                <table class="table table-striped" id="tablaLibros">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Libros seleccionados se agregarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+
+
+                <div id="librosSeleccionados">
+                    <!-- Libros seleccionados se agregarán aquí dinámicamente -->
+                </div>
+
+                <x-primary-button class="btn btn-primary">
+                    {{ __('Guardar') }}
+                </x-primary-button>
+
+            </form>
+
+            @elseif(Auth::user()->role->isCliente())
+            <form action="{{ route('cliente-prestamos.store') }}" method="POST">
                 @csrf
 
                 <div class="form-group mb-3">
@@ -76,6 +141,7 @@
                 </x-primary-button>
 
             </form>
+            @endif
         </div>
     </div>
 </div>

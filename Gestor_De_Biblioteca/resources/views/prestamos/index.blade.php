@@ -6,9 +6,17 @@
     <!-- Page Heading -->
     <h1>Lista de Préstamos</h1>
 
-    <a href="{{route('prestamos.create')}}" class="btn btn-primary m-2">
+
+    @if (Auth::user()->role->isAdmin())
+        <a href="{{route('prestamos.create')}}" class="btn btn-primary m-2">
+            <i class="fas fa-plus"></i> Nuevo Préstamo
+        </a>
+    @elseif (Auth::user()->role->isCliente())
+    <a href="{{route('cliente-prestamos.create')}}" class="btn btn-primary m-2">
         <i class="fas fa-plus"></i> Nuevo Préstamo
     </a>
+    @endif
+
     <button id="detailButton" class="btn btn-secondary m-2" disabled>
         <i class="fas fa-eye"></i> Detalles
     </button>
@@ -63,33 +71,40 @@
                             <td>{{ $prestamo->fecha_devolucion }}</td>
                             <td>{{ $prestamo->updated_at}}</td>
                             <td>
-
+                                @if(Auth::check() && Auth::user()->role->isAdmin())
                                 <form action="{{ route('prestamos.updateEstado', $prestamo->id) }}" method="POST" style="display:flex;">
                                     @csrf
                                     @method('PATCH')
-                                    <input type="hidden" name="estado" value="aceptado">
+                                    <input type="hidden" name="estado" value="activo">
                                     <button type="submit" class="btn btn-success m-2">
-                                        <i class="fas fa-check"></i>
+                                        <i class="fas fa-check"> Activar</i>
                                     </button>
                                 </form>
 
                                 <form action="{{ route('prestamos.updateEstado', $prestamo->id) }}" method="POST" style="display:flex;">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="estado" value="cerrado">
+                                    <button type="submit" class="btn btn-danger m-2">
+                                        <i class="fas fa-times"> Cerrar</i>
+                                    </button>
+                                </form>
+                                @endif
+
+                                @if(Auth::check() && Auth::user()->role->isCliente())
+
+                                <form action="{{ route('cliente-prestamos.updateEstado', $prestamo->id) }}" method="POST" style="display:flex;">
                                     @csrf
                                     @method('PATCH')
                                     <input type="hidden" name="estado" value="cancelado">
                                     <button type="submit" class="btn btn-warning m-2">
-                                        <i class="fas fa-ban"></i>
+                                        <i class="fas fa-ban"></i> Cancelar
                                     </button>
                                 </form>
+                                @endif
 
-                                <form action="{{ route('prestamos.updateEstado', $prestamo->id) }}" method="POST" style="display:flex;">
-                                    @csrf
-                                    @method('PATCH')
-                                    <input type="hidden" name="estado" value="rechazado">
-                                    <button type="submit" class="btn btn-danger m-2">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </form>
+
+
 
                 </td>
 

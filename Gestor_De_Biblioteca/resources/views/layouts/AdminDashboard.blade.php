@@ -49,19 +49,28 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
+            @if(Auth::check())
             <!-- Nav Item - Dashboard -->
+            @if(Auth::user()->role->isAdmin())
             <li class="nav-item active">
                 <a class="nav-link" href="{{route('prestamos.index')}}">
                     <i class="fas fa-fw fa-home"></i>
                     <span>Mis préstamos</span></a>
             </li>
+            @else
+            <li class="nav-item active">
+                <a class="nav-link" href="{{route('cliente-prestamos.index')}}">
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>Mis préstamos (cliente)</span></a>
+                    </li>
+            @endif
 
             <!-- Divider -->
             <hr class="sidebar-divider">
 
             <li class="nav-item">
 
-                @if(Auth::check())
+
                 @if(Auth::user()->role->isAdmin())
                     <a class="nav-link" href="{{ route('libros.index') }}">
                         <i class="fas fa-fw fa-book"></i>
@@ -70,22 +79,18 @@
                 @else
                     <a class="nav-link" href="{{ route('cliente-libros.index') }}">
                         <i class="fas fa-fw fa-book"></i>
-                        <span>Libros del Cliente</span>
+                        <span>Libros (cliente)</span>
                     </a>
                 @endif
-            @else
-                <a class="nav-link" href="{{ route('login') }}">
-                    <i class="fas fa-fw fa-sign-in-alt"></i>
-                    <span>Iniciar Sesión</span>
-                </a>
-            @endif
+
+
 
             </li>
 
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                @if(Auth::check() && Auth::user()->role->isAdmin())
+                @if(Auth::user()->role->isAdmin())
                 <a class="nav-link" href="{{ route('users.index') }}">
                     <i class="fas fa-fw fa-user"></i>  <!--Cambiar el el icono a user-->
                     <span>Usuarios</span>
@@ -112,6 +117,15 @@
                     </div>
                 </div>
             </li>
+
+            @else
+
+            <a class="nav-link" href="{{ route('login') }}">
+                <i class="fas fa-fw fa-sign-in-alt" style="color: white"></i>
+                <span style="color: white">Iniciar Sesión</span>
+            </a>
+
+            @endif
 
             <!-- Nav Item - Tables -->
 
