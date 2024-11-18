@@ -27,7 +27,10 @@ Route::middleware('auth')->middleware(IsRoleAdmin::class)->group(function () {
     Route::patch('/prestamos/{id}/estado', [PrestamoController::class, 'updateEstado'])->name('prestamos.updateEstado');
     Route::get('/informes/negocio', [InformeController::class, 'negocio'])->name('informes.negocio');
     Route::get('/informes/control', [InformeController::class, 'control'])->name('informes.control');
-    Route::resource('users', UserController::class); // Agregando rutas de usuarios
+    Route::resource('users', UserController::class);
+    Route::patch('/prestamos/{id}/activar', [PrestamoController::class, 'activarPrestamo'])->name('prestamos.activar');
+    Route::patch('/prestamos/{id}/cerrar', [PrestamoController::class, 'cerrarPrestamo'])->name('prestamos.cerrar');
+    Route::patch('/prestamos/{id}/cancelar', [PrestamoController::class, 'cancelarPrestamo'])->name('prestamos.cancelar');
 });
 
 Route::middleware('auth')->middleware(IsRoleCliente::class)->group(function () {
@@ -38,8 +41,7 @@ Route::middleware('auth')->middleware(IsRoleCliente::class)->group(function () {
     Route::patch('/cliente/prestamos/{id}/devolucion', [PrestamoController::class, 'update'])->name('cliente-prestamos.update');
     Route::delete('/cliente/prestamos/{id}', [PrestamoController::class, 'destroy'])->name('cliente-prestamos.destroy');
     Route::post('/cliente/prestamos', [PrestamoController::class, 'store'])->name('cliente-prestamos.store');
-    Route::patch('/cliente/prestamos/{id}/cancelacion', [PrestamoController::class, 'updateEstado'])->name('cliente-prestamos.updateEstado');
-
+    Route::patch('/cliente/prestamos/{id}/cancelar', [PrestamoController::class, 'cancelarPrestamo'])->name('cliente-prestamos.cancelar');
 });
 
 require __DIR__ . '/auth.php';

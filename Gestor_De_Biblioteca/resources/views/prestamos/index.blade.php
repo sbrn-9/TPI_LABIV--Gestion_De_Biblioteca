@@ -65,47 +65,58 @@
                             <td>{{ $prestamo->fecha_devolucion }}</td>
                             <td>{{ $prestamo->updated_at }}</td>
                             <td>
-                                @if(auth()->user()->role->isAdmin())
-                                    <form action="{{ route('prestamos.updateEstado', $prestamo->id) }}" method="POST" style="display:flex;">
-                                        @csrf
-                                        @method('PATCH')
-                                        <input type="hidden" name="estado" value="activado">
-                                        <button type="submit" class="btn btn-success btn-icon-split m-2">
-                                            <span class="icon text-white-50">
-                                                <i class="fas fa-check"></i>
-                                            </span>
-                                            <span class="text">Activar</span>
-                                        </button>
-                                    </form>
+                                @if(auth()->user()->role->isAdmin() && $prestamo->estado->isPendiente())
+                                <form action="{{ route('prestamos.activar', $prestamo->id) }}" method="POST" style="display:flex;">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="estado" value="1">
+                                    <button type="submit" class="btn btn-success btn-icon-split m-2">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                        <span class="text">Activar</span>
+                                    </button>
+                                </form>
+                                <form action="{{ route('prestamos.cancelar', $prestamo->id) }}" method="POST" style="display:flex;">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="estado" value="4">
+                                    <button type="submit" class="btn btn-warning btn-icon-split m-2" onclick="return confirm('¿Estás seguro de que deseas cancelar este préstamo?')">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        <span class="text">Cancelar</span>
+                                    </button>
+                                </form>
                                 @endif
-
-                                @if(auth()->user()->role->isCliente())
-                                    <form action="{{ route('cliente-prestamos.updateEstado', $prestamo->id) }}" method="POST" style="display:flex;">
-                                        @csrf
-                                        @method('PATCH')
-                                        <input type="hidden" name="estado" value="cancelado">
-                                        <button type="submit" class="btn btn-warning btn-icon-split m-2" onclick="return confirm('¿Estás seguro de que deseas cancelar este préstamo?')">
-                                            <span class="icon text-white-50">
-                                                <i class="fas fa-ban"></i>
-                                            </span>
-                                            <span class="text">Cancelar</span>
-                                        </button>
-                                    </form>
-                                @endif
-
+                                @if ($prestamo->estado->isActivo() || $prestamo->estado->isAtrasado())
                                 @if(auth()->user()->role->isAdmin())
-                                    <form action="{{ route('prestamos.updateEstado', $prestamo->id) }}" method="POST" style="display:flex;">
+                                    <form action="{{ route('prestamos.cerrar', $prestamo->id) }}" method="POST" style="display:flex;">
                                         @csrf
                                         @method('PATCH')
-                                        <input type="hidden" name="estado" value="rechazado">
+                                        <input type="hidden" name="estado" value="2">
                                         <button type="submit" class="btn btn-danger btn-icon-split m-2">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-times"></i>
                                             </span>
-                                            <span class="text">Rechazar</span>
+                                            <span class="text">Cerrar</span>
                                         </button>
                                     </form>
                                 @endif
+                                @endif
+                                @if(auth()->user()->role->isCliente() && $prestamo->estado->isPendiente())
+                                <form action="{{ route('cliente-prestamos.cancelar', $prestamo->id) }}" method="POST" style="display:flex;">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="estado" value="4">
+                                    <button type="submit" class="btn btn-warning btn-icon-split m-2" onclick="return confirm('¿Estás seguro de que deseas cancelar este préstamo?')">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        <span class="text">Cancelar</span>
+                                    </button>
+                                </form>
+                            @endif
                             </td>
                         </tr>
                         @endforeach
