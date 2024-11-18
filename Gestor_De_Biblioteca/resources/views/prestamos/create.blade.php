@@ -40,6 +40,54 @@
                     @enderror
                 </div>
 
+                @if(Auth::user()->role->isAdmin())
+                <div class="card mb-3">
+                    <div class="card-header bg-light">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Seleccionar Cliente</h4>
+                            <div class="input-group w-50" style="position: relative;">
+                                <input type="text" id="searchUsers" class="form-control" placeholder="Buscar clientes...">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                </div>
+                                <div id="userSearchResults" class="position-absolute w-100 mt-1 d-none" style="top: 100%; z-index: 1000;">
+                                    <div class="list-group">
+                                        <!-- Search results will be inserted here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="selectedUserInfo" class="d-none">
+                            <input type="hidden" name="cliente_id" id="selectedUserId">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Correo Electrónico</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td id="selectedUserName"></td>
+                                            <td id="selectedUserEmail"></td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-sm" id="removeSelectedUser">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+
                 <div class="card">
                     <div class="card-header bg-light">
                         <div class="d-flex justify-content-between align-items-center">
@@ -117,7 +165,7 @@
 </template>
 
 <style>
-#searchResults {
+#searchResults, #userSearchResults {
     background: white;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -126,14 +174,14 @@
     overflow-y: auto;
 }
 
-#searchResults .list-group-item {
+#searchResults .list-group-item, #userSearchResults .list-group-item {
     display: flex;
     align-items: center;
     padding: 8px 12px;
     cursor: pointer;
 }
 
-#searchResults .list-group-item:hover {
+#searchResults .list-group-item:hover, #userSearchResults .list-group-item:hover {
     background-color: #f8f9fa;
 }
 
@@ -187,12 +235,71 @@ window.addEventListener('load', function() {
     // Datos de libros y libros seleccionados previamente
     const libros = @json($libros);
     const oldLibros = @json(old('libros', []));
+    @if(Auth::user()->role->isAdmin())
+    const clientes = @json($clientes);
+    @endif
 
     // Elementos del DOM
     const searchInput = document.getElementById('searchBooks');
     const searchResults = document.getElementById('searchResults');
     const selectedBooksList = document.getElementById('selectedBooksList');
     const selectedBookRowTemplate = document.getElementById('selectedBookRowTemplate');
+
+    @if(Auth::user()->role->isAdmin())
+    // Elementos para búsqueda de usuarios
+    const searchUsersInput = document.getElementById('searchUsers');
+    const userSearchResults = document.getElementById('userSearchResults');
+    const selectedUserInfo = document.getElementById('selectedUserInfo');
+    const selectedUserName = document.getElementById('selectedUserName');
+    const selectedUserEmail = document.getElementById('selectedUserEmail');
+    const selectedUserId = document.getElementById('selectedUserId');
+    const removeSelectedUser = document.getElementById('removeSelectedUser');
+
+    // Función para mostrar resultados de búsqueda de usuarios
+    function showUserSearchResults(searchTerm = '') {
+        const listGroup = userSearchResults.querySelector('.list-group');
+        listGroup.innerHTML = '';
+
+        const results = clientes.filter(cliente =>
+            cliente.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            cliente.email.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        results.forEach(cliente => {
+            const item = document.createElement('a');
+            item.className = 'list-group-item list-group-item-action';
+            item.innerHTML = `
+                <div>
+                    <strong>${cliente.name}</strong>
+                    <small class="text-muted d-block">${cliente.email}</small>
+                </div>
+            `;
+            item.addEventListener('click', () => selectUser(cliente));
+            listGroup.appendChild(item);
+        });
+
+        userSearchResults.classList.remove('d-none');
+    }
+
+    // Función para seleccionar un usuario
+    function selectUser(cliente) {
+        selectedUserId.value = cliente.id;
+        selectedUserName.textContent = cliente.name;
+        selectedUserEmail.textContent = cliente.email;
+        selectedUserInfo.classList.remove('d-none');
+        searchUsersInput.value = '';
+        userSearchResults.classList.add('d-none');
+    }
+
+    // Event listeners para búsqueda de usuarios
+    searchUsersInput.addEventListener('input', () => showUserSearchResults(searchUsersInput.value));
+    searchUsersInput.addEventListener('focus', () => showUserSearchResults(searchUsersInput.value));
+
+    removeSelectedUser.addEventListener('click', () => {
+        selectedUserId.value = '';
+        selectedUserInfo.classList.add('d-none');
+    });
+    @endif
 
     // Set para mantener track de los libros seleccionados
     const selectedBookIds = new Set();
@@ -264,16 +371,6 @@ window.addEventListener('load', function() {
             showSearchResults(searchInput.value);
         });
 
-        // cantidadInput.addEventListener('change', function() {
-        //     const value = parseInt(this.value) || 0;
-        //     if (value > libro.disponibles) {
-        //         this.value = libro.disponibles;
-        //     }
-        //     if (value < 1) {
-        //         this.value = 1;
-        //     }
-        // });
-
         selectedBooksList.appendChild(tr);
         selectedBookIds.add(libro.id);
 
@@ -300,6 +397,11 @@ window.addEventListener('load', function() {
         if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
             searchResults.classList.add('d-none');
         }
+        @if(Auth::user()->role->isAdmin())
+        if (!searchUsersInput.contains(e.target) && !userSearchResults.contains(e.target)) {
+            userSearchResults.classList.add('d-none');
+        }
+        @endif
     });
 
     // Validación del formulario
@@ -307,7 +409,16 @@ window.addEventListener('load', function() {
         if (selectedBookIds.size === 0) {
             e.preventDefault();
             alert('Debe seleccionar al menos un libro para el préstamo.');
+            return;
         }
+
+        @if(Auth::user()->role->isAdmin())
+        if (!selectedUserId.value) {
+            e.preventDefault();
+            alert('Debe seleccionar un cliente para el préstamo.');
+            return;
+        }
+        @endif
     });
 
     // Restaurar libros seleccionados si hay errores de validación

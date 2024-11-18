@@ -9,6 +9,8 @@ use App\Http\Requests\UpdateLibroRequest;
 use App\Http\Requests\UpdatePrestamoRequest;
 use App\Models\Libro;
 use App\Models\Libros_Prestados;
+use App\Models\User;
+use App\Enums\TipoUsuario;
 use App\UpdateLibros;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +39,15 @@ class PrestamoController extends Controller
     public function create()
     {
         $libros = Libro::all();
-        return view('prestamos.create', ['libros' => $libros]);
+        $data = ['libros' => $libros];
+
+        // Si es admin, obtener lista de clientes
+        if (Auth::user()->role->isAdmin()) {
+            $clientes = User::where('role', TipoUsuario::Cliente)->get();
+            $data['clientes'] = $clientes;
+        }
+
+        return view('prestamos.create', $data);
     }
 
     /**
@@ -51,10 +61,13 @@ public function store(StorePrestamoRequest $request)
 
     // lógica de estado: "Pendiente" si es cliente, "Activo" si es admin
     $usuario = auth::user();
-    if ($usuario->es_admin) {
+    if ($usuario->role->isAdmin()) {
         $estado = EstadoPrestamo::Activo->value;
+        // Si es admin, usar el cliente seleccionado
+        $clienteId = $validatedData['cliente_id'] ?? $usuario->id;
     } else {
         $estado = EstadoPrestamo::Pendiente->value;
+        $clienteId = $usuario->id;
     }
 
     // crea el préstamo en la base de datos con los campos necesarios
@@ -62,7 +75,7 @@ public function store(StorePrestamoRequest $request)
         'estado' => $estado,
         'fecha_prestamo' => $validatedData['fecha_prestamo'],
         'fecha_devolucion' => $validatedData['fecha_devolucion'],
-        'cliente' => $usuario->id, // el usuario que está activo
+        'cliente' => $clienteId,
     ]);
 
     // crea los libros prestados
@@ -83,8 +96,13 @@ public function store(StorePrestamoRequest $request)
 
     // Verificar y actualizar el estado del préstamo si ha pasado la fecha de devolución
 
-    return redirect()->route('cliente-prestamos.index')
-        ->with('success', 'El préstamo se ha creado correctamente');
+    if ($usuario->role->isAdmin()) {
+        return redirect()->route('prestamos.index')
+            ->with('success', 'El préstamo se ha creado correctamente');
+    } else {
+        return redirect()->route('cliente-prestamos.index')
+            ->with('success', 'El préstamo se ha creado correctamente');
+    }
 }
 
 

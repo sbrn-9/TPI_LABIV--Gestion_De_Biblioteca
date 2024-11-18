@@ -131,18 +131,18 @@ function toggleButtons(radio) {
         radio.checked = false;
         lastCheckedRadio = null;
         detailButton.disabled = true;
-        editButton.disabled = true;
-        deleteButton.disabled = true;
+        if (editButton)editButton.disabled = true;
+        if (deleteButton)deleteButton.disabled = true;
     } else {
         lastCheckedRadio = radio;
         const prestamoId = radio.value;
         const prestamoEstado = radio.getAttribute('data-estado');
         detailButton.disabled = false;
-        editButton.disabled = false;
-        deleteButton.disabled = false;
+        if (editButton)editButton.disabled = false;
+        if (deleteButton)deleteButton.disabled = false;
         detailButton.onclick = () => window.location.href = `{{ url('prestamos') }}/${prestamoId}`;
-        editButton.onclick = () => window.location.href = `{{ url('prestamos') }}/${prestamoId}/edit`;
-        deleteButton.onclick = () => {
+        if (editButton) editButton.onclick = () => window.location.href = `{{ url('prestamos') }}/${prestamoId}/edit`;
+        if (deleteButton)deleteButton.onclick = () => {
             if (prestamoEstado === 'activo' || prestamoEstado === 'cerrado') {
                 alert(`No se puede cancelar el préstamo porque está en estado ${prestamoEstado}.`);
             } else {
