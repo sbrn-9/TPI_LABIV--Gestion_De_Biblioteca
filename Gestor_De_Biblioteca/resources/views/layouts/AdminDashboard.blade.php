@@ -110,11 +110,9 @@
                     <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Informe</h6>
-                        <a class="collapse-item" href="{{route('informe.index')}}">Estadísticas</a>
-                        <a class="collapse-item" href="{{route('welcome')}}">Prestamos activos</a>
-                        <a class="collapse-item" href="{{route('welcome')}}">Libros</a>
-                        <a class="collapse-item" href="{{route('welcome')}}">Clientes</a>
+
+                        <a class="collapse-item" href="{{route('informes.negocio')}}">Negocio</a>
+                        <a class="collapse-item" href="{{route('informes.control')}}">Control</a>
                     </div>
                 </div>
             </li>

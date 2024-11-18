@@ -25,8 +25,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->middleware(IsRoleAdmin::class)->group(function () {
     Route::patch('/prestamos/{id}/estado', [PrestamoController::class, 'updateEstado'])->name('prestamos.updateEstado');
-    Route::get('/informe', [InformeController::class, 'index'])->name('informe.index');
-
+    Route::get('/informes/negocio', [InformeController::class, 'negocio'])->name('informes.negocio');
+    Route::get('/informes/control', [InformeController::class, 'control'])->name('informes.control');
     Route::resource('users', UserController::class); // Agregando rutas de usuarios
 });
 

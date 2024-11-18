@@ -4,14 +4,18 @@ Chart.defaults.global.defaultFontColor = '#858796';
 
 // Pie Chart Example
 var ctx = document.getElementById("myPieChart");
+var catNames = JSON.parse(ctx.getAttribute("data-labels"));
+console.log(catNames);
+
+var topCats = JSON.parse(ctx.getAttribute("data-values"));
 var myPieChart = new Chart(ctx, {
   type: 'doughnut',
   data: {
-    labels: ["Direct", "Referral", "Social"],
+    labels: [catNames[0], catNames[1], catNames[2]],
     datasets: [{
-      data: [55, 30, 15],
-      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+      data: [Number(topCats[0]), Number(topCats[1]), Number(topCats[2])],
+      backgroundColor: ['#8179C2','#B199EC', '#E1D9FF'],
+      hoverBackgroundColor: ['#8179C2', '#B199EC', '#E1D9FF'],
       hoverBorderColor: "rgba(234, 236, 244, 1)",
     }],
   },

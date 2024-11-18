@@ -1819,7 +1819,13 @@
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
-
+  .table-responsive-informe {
+    display: block;
+    width: 100%;
+    max-height: 460px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   .table-responsive > .table-bordered {
     border: 0;
   }
@@ -9593,7 +9599,12 @@
   .text-primary {
     color: #b199ec !important;
   }
-
+  .text-primary-dark{
+    color: #8179C2 !important;
+  }
+  .text-primary-light{
+    color: #E1D9FF !important;
+  }
   a.text-primary:hover, a.text-primary:focus {
     color: #224abe !important;
   }
