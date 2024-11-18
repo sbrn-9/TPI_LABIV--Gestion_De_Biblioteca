@@ -16,9 +16,9 @@
     <script src="{{asset('assets/js/init-alpine.js')}}"></script>
   </head>
   <body>
-    <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
+    <div class="flex items-center min-h-screen p-6 bg-gray-50 light:bg-gray-50 ">
       <div
-        class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800"
+        class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl light:bg-gray-50"
       >
         <div class="flex flex-col overflow-y-auto md:flex-row">
           <div class="h-32 md:h-auto md:w-1/2">
@@ -40,7 +40,7 @@
           <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
             <div class="w-full">
               <h1
-                class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200"
+                class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-500"
               >
                 Iniciar Sesión
               </h1>
@@ -49,7 +49,7 @@
               <label class="block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Email</span>
                 <input
-                  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                  class="block w-full mt-1 text-sm dark:border-gray-400 light:bg-gray-500  focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-500 dark:focus:shadow-outline-gray form-input"
                   placeholder="ejemplo@gmail.com"
                   id="email"
                   type="email"
@@ -61,7 +61,7 @@
               <label class="block mt-4 text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Contraseña</span>
                 <input
-                  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                  class="block w-full mt-1 text-sm dark:border-gray-400 light:bg-gray-500 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-500 dark:focus:shadow-outline-gray form-input"
                   placeholder="***************"
                   id="password"
                   type="password"
