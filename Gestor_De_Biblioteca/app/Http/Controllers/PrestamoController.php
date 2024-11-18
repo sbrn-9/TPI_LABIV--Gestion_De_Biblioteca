@@ -43,47 +43,50 @@ class PrestamoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePrestamoRequest $request): RedirectResponse
-    {
-        //valida en StorePrestamoRequest y llega aqui
-        $validatedData = $request->validated();
 
-        //logica estado
-        if($validatedData['fecha_prestamo'] > today()){
-            $estado = EstadoPrestamo::Pendiente->value;
-        }else{
-            $estado = EstadoPrestamo::Activo->value;}
+public function store(StorePrestamoRequest $request)
+{
+    // valida en StorePrestamoRequest y llega aquí
+    $validatedData = $request->validated();
 
-        //crea el prestamo en la bd con los campos necesarios
-        $prestamo = Prestamo::create([
-            'estado' => $estado,
-            'fecha_prestamo' => $validatedData['fecha_prestamo'],
-            'fecha_devolucion' => $validatedData['fecha_devolucion'],
-            'cliente' => auth::user()->id, //el usuario que esta activo
-        ]);
+    // lógica de estado: "Pendiente" si es cliente, "Activo" si es admin
+    $usuario = auth::user();
+    if ($usuario->es_admin) {
+        $estado = EstadoPrestamo::Activo->value;
+    } else {
+        $estado = EstadoPrestamo::Pendiente->value;
+    }
 
-        //crea los libros prestados
-        foreach($validatedData['libros'] as $libro){//recorre el array de libros
+    // crea el préstamo en la base de datos con los campos necesarios
+    $prestamo = Prestamo::create([
+        'estado' => $estado,
+        'fecha_prestamo' => $validatedData['fecha_prestamo'],
+        'fecha_devolucion' => $validatedData['fecha_devolucion'],
+        'cliente' => $usuario->id, // el usuario que está activo
+    ]);
 
-            if($libro['cantidad'] != null //que tengan un valor en cantidad
-                && $libro['cantidad'] > 0 ){ //que sea mayor a 0
+    // crea los libros prestados
+    foreach ($validatedData['libros'] as $libro) { // recorre el array de libros
+        if ($libro['cantidad'] != null // que tengan un valor en cantidad
+            && $libro['cantidad'] > 0) { // que sea mayor a 0
 
-            Libros_Prestados::create([//crea el registro
+            Libros_Prestados::create([ // crea el registro
                 'estado' => $estado,
-                'prestamo_id' => $prestamo->id, //id del prestamo creado
+                'prestamo_id' => $prestamo->id, // id del préstamo creado
                 'libro_id' => $libro['libro_id'], // id del libro actual
                 'cantidad' => $libro['cantidad'], // cantidad pedida
             ]);
 
             UpdateLibros::DescontarLibros($libro['libro_id'], $libro['cantidad']);
-            }
         }
-
-
-        return redirect()->route('prestamos.index')
-        ->with('success', 'El prestamo se ha creado correctamente');
-
     }
+
+    // Verificar y actualizar el estado del préstamo si ha pasado la fecha de devolución
+
+    return redirect()->route('cliente-prestamos.index')
+        ->with('success', 'El préstamo se ha creado correctamente');
+}
+
 
     /**
      * Display the specified resource.
@@ -91,6 +94,7 @@ class PrestamoController extends Controller
     public function show(Prestamo $prestamo)
     {
         $prestamoLibrosInfo = Libros_Prestados::where('prestamo_id', $prestamo->id)->get();
+
         return view('prestamos.show', ['prestamo' => $prestamo, 'prestamoLibrosInfo' => $prestamoLibrosInfo]);
     }
 
