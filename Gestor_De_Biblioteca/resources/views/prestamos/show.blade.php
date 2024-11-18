@@ -6,25 +6,50 @@
         <i class="fa fa-chevron-left"></i> Volver
     </a>
 
+    @if(Auth::user()->role->isCliente())
+        <a href="{{ route('cliente-prestamos.index') }}" class="btn btn-secondary mb-3"><i class="fa fa-chevron-left"></i> Volver</a>
+
+    @endif
+
     <div class="card">
         <div class="card-header">
-            <h1 class="card-title">Préstamo ID: {{$prestamo->id}}</h1>
-            <h5 class="card-subtitle text-muted">Cliente: {{$prestamo->propietario->name}}</h5>
+            <h1 class="card-subtitle">Préstamo ID: {{$prestamo->id}}</h1>
         </div>
         <div class="card-body">
+            <p class="card-text"> <strong>Cliente: </strong>{{$prestamo->propietario->name}}</p>
             <p class="card-text"><strong>Estado:</strong> {{$prestamo->estado->name}}</p>
             <p class="card-text"><strong>Fecha de Préstamo:</strong> {{$prestamo->fecha_prestamo->format('d-M-y')}}</p>
             <p class="card-text"><strong>Fecha de Devolución:</strong> {{$prestamo->fecha_devolucion->format('d-M-y')}}</p>
+
             <h4>Libros:</h4>
-            <ul>
+
+            <div class="row">
                 @if ($prestamoLibrosInfo->isEmpty())
-                    <li>No hay libros prestados.</li>
+                <div class="col-md-12"> <div class="alert alert-info">No hay libros prestados.</div>
+            </div>
                 @else
-                    @foreach ($prestamoLibrosInfo as $info)
-                        <li>{{$info->libro->titulo}} : {{$info->cantidad}}</li>
-                    @endforeach
+                @foreach ($prestamoLibrosInfo as $info)
+                <div class="col-12 mb-3">
+                    <div class="card flex-row">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="card-title">{{$info->libro->titulo}}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{$info->libro->autor}}</h6>
+                                <p class="card-text"><strong>Cantidad:</strong> {{$info->cantidad}}</p>
+                            </div>
+                            @if($info->libro->img_url)
+                            <img src="{{ $info->libro->img_url }}" alt="Imagen del libro {{ $info->libro->titulo }}" class="img-fluid rounded" style="max-height: 100px;">
+                            @else
+                            <div class="alert alert-info">No hay imagen del libro disponible</div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                @endforeach
                 @endif
-            </ul>
+            </div>
+
+
         </div>
     </div>
 
