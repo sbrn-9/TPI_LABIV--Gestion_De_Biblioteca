@@ -23,8 +23,8 @@ Route::middleware('auth')->middleware(IsRoleAdmin::class)->group(function () {
     Route::resource('libros', LibroController::class)->withTrashed();
     Route::resource('prestamos', PrestamoController::class)->withTrashed();
     Route::patch('/prestamos/{id}/estado', [PrestamoController::class, 'updateEstado'])->name('prestamos.updateEstado');
-    Route::get('/informe', [InformeController::class, 'index'])->name('informe.index');
-
+    Route::get('/informes/negocio', [InformeController::class, 'negocio'])->name('informes.negocio');
+    Route::get('/informes/control', [InformeController::class, 'control'])->name('informes.control');
 });
 
 Route::middleware('auth')->middleware(IsRoleCliente::class)->group(function () {
