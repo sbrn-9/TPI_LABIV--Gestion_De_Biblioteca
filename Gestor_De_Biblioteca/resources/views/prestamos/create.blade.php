@@ -21,7 +21,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('prestamos.store') }}" method="POST">
+            <form action="{{ route('prestamos.store') }}" method="POST" id="prestamoForm">
                 @csrf
 
                 <div class="form-group mb-3">
@@ -40,123 +40,285 @@
                     @enderror
                 </div>
 
-
-
-                <div class="form-group">
-                    <label for="buscarQuery">Buscar Libros:</label>
-                    <input type="text" name="query" id="buscarQuery" class="form-control mr-2" placeholder="Buscar libros...">
-                    <button type="button" id="buscarButton" class="btn btn-primary m-2">Buscar</button>
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Libros a prestar</h4>
+                            <div class="input-group w-50" style="position: relative;">
+                                <input type="text" id="searchBooks" class="form-control" placeholder="Buscar libros...">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                </div>
+                                <div id="searchResults" class="position-absolute w-100 mt-1 d-none" style="top: 100%; z-index: 1000;">
+                                    <div class="list-group">
+                                        <!-- Search results will be inserted here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="selectedBooksTable">
+                                <thead>
+                                    <tr>
+                                        <th>Imagen</th>
+                                        <th>Título</th>
+                                        <th>Disponibles</th>
+                                        <th>Cantidad a prestar</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="selectedBooksList">
+                                    <!-- Selected books will be added here dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="row" id="resultadosBusqueda">
-                    <!-- Resultados de la búsqueda se mostrarán aquí -->
+                <div class="mt-3">
+                    <x-primary-button class="btn btn-primary">
+                        {{ __('Guardar') }}
+                    </x-primary-button>
                 </div>
-
-                <label>Libros a prestar:</label>
-
-                <table class="table table-striped" id="tablaLibros">
-                    <thead>
-                        <tr>
-                            <th>Título</th>
-                            <th>Cantidad</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Libros seleccionados se agregarán aquí dinámicamente -->
-                    </tbody>
-                </table>
-
-
-                <div id="librosSeleccionados">
-                    <!-- Libros seleccionados se agregarán aquí dinámicamente -->
-                </div>
-
-                <x-primary-button class="btn btn-primary">
-                    {{ __('Guardar') }}
-                </x-primary-button>
-
             </form>
         </div>
     </div>
 </div>
 
+<template id="selectedBookRowTemplate">
+    <tr>
+        <td style="width: 100px;">
+            <div class="book-image-container">
+                <img src="" alt="Portada del libro" class="img-thumbnail book-cover" style="width: 60px; height: 90px; object-fit: cover;">
+                <i class="fas fa-book fa-3x text-secondary"></i>
+            </div>
+        </td>
+        <td class="book-title"></td>
+        <td>
+            <span class="badge bg-info text-white"></span>
+        </td>
+        <td style="width: 200px;">
+            <input type="hidden" name="libros[INDEX][libro_id]">
+            <input type="number" 
+                class="form-control cantidad-input" 
+                name="libros[INDEX][cantidad]" 
+                min="1" 
+                style="width: 100px;"
+                required>
+        </td>
+        <td>
+            <button type="button" class="btn btn-danger btn-sm remove-book">
+                <i class="fas fa-trash"></i>
+            </button>
+        </td>
+    </tr>
+</template>
+
+<style>
+#searchResults {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#searchResults .list-group-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+#searchResults .list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.book-image-container {
+    width: 60px;
+    height: 90px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.book-image-container .fa-book {
+    display: none;
+}
+
+.book-image-container img:not([src]), 
+.book-image-container img[src=""], 
+.book-image-container img.error {
+    display: none;
+}
+
+.book-image-container img:not([src]) ~ .fa-book,
+.book-image-container img[src=""] ~ .fa-book,
+.book-image-container img.error ~ .fa-book {
+    display: block;
+}
+
+#searchResults .book-image-container {
+    width: 40px;
+    height: 60px;
+    margin-right: 12px;
+}
+
+#searchResults .book-info {
+    flex-grow: 1;
+}
+</style>
 
 <script>
-    document.getElementById('buscarButton').addEventListener('click', function() {
-        var query = document.getElementById('buscarQuery').value.toLowerCase();
-        console.log('Buscando libros para:', query);
+window.addEventListener('load', function() {
+    // Datos de libros y libros seleccionados previamente
+    const libros = @json($libros);
+    const oldLibros = @json(old('libros', []));
+    
+    // Elementos del DOM
+    const searchInput = document.getElementById('searchBooks');
+    const searchResults = document.getElementById('searchResults');
+    const selectedBooksList = document.getElementById('selectedBooksList');
+    const selectedBookRowTemplate = document.getElementById('selectedBookRowTemplate');
+    
+    // Set para mantener track de los libros seleccionados
+    const selectedBookIds = new Set();
+    
+    // Función para mostrar resultados de búsqueda
+    function showSearchResults(searchTerm = '') {
+        const listGroup = searchResults.querySelector('.list-group');
+        listGroup.innerHTML = '';
 
-        fetch(`/libro/buscar-libros?query=${encodeURIComponent(query)}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Datos recibidos:', data);
-                var resultados = document.getElementById('resultadosBusqueda');
-                resultados.innerHTML = '';
+        const results = libros.filter(libro => 
+            libro.titulo.toLowerCase().includes(searchTerm.toLowerCase()) &&
+            !selectedBookIds.has(libro.id) &&
+            libro.disponibles > 0
+        );
 
-                if (data.length === 0) {
-                    resultados.innerHTML = '<p>No se encontraron libros.</p>';
-                } else {
-                    data.forEach(libro => {
-                        var titulo = libro.titulo.toLowerCase();
-                        if (titulo.includes(query)) {
-                            var card = document.createElement('div');
-                            card.className = 'col-md-6 mb-3';
-                            card.innerHTML = `
-                                <div class="card flex-row">
-                                    <img src="${libro.img_url}" class="card-img-left" alt="${libro.titulo}" style="width: 150px; height: auto;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${libro.titulo}</h5>
-                                        <p class="card-text">${libro.descripcion}</p>
-                                        <p class="text-muted">Disponibles: ${libro.disponibles}</p>
-                                        <div class="form-group">
-                                            <label for="cantidad-${libro.id}">Cantidad:</label>
-                                            <input type="number" id="cantidad-${libro.id}" class="form-control" min="1" max="${libro.disponibles}" value="1">
-                                        </div>
-                                        <a href="#" class="btn btn-primary add-to-prestamo" data-libro-id="${libro.id}" data-libro-titulo="${libro.titulo}" data-libro-disponibles="${libro.disponibles}">Agregar a Préstamo</a>
-                                    </div>
-                                </div>
-                            `;
-                            resultados.appendChild(card);
-                        }
-                    });
+        results.forEach(libro => {
+            const item = document.createElement('a');
+            item.className = 'list-group-item list-group-item-action';
+            item.innerHTML = `
+                <div class="book-image-container">
+                    <img src="${libro.img_url || ''}" alt="Portada de ${libro.titulo}" onerror="this.classList.add('error')">
+                    <i class="fas fa-book fa-2x text-secondary"></i>
+                </div>
+                <div class="book-info">
+                    ${libro.titulo}
+                    <small class="text-muted d-block">
+                        (${libro.disponibles} ${libro.disponibles === 1 ? 'disponible' : 'disponibles'})
+                    </small>
+                </div>
+            `;
+            item.addEventListener('click', () => selectBook(libro));
+            listGroup.appendChild(item);
+        });
 
-                    document.querySelectorAll('.add-to-prestamo').forEach(button => {
-                        button.addEventListener('click', function(event) {
-                            event.preventDefault();
-                            const libroId = this.getAttribute('data-libro-id');
-                            const titulo = this.getAttribute('data-libro-titulo');
-                            const disponibles = parseInt(this.getAttribute('data-libro-disponibles'));
-                            const cantidad = parseInt(document.getElementById(`cantidad-${libroId}`).value);
+        searchResults.classList.remove('d-none');
+    }
 
-                            if (cantidad > disponibles) {
-                                alert(`La cantidad de libros solicitada (${cantidad}) supera a la cantidad disponible (${disponibles}).`);
-                            } else {
-                                var librosSeleccionados = document.getElementById('librosSeleccionados');
-                                librosSeleccionados.innerHTML += `
-                                    <input type="hidden" name="libros[${libroId}][libro_id]" value="${libroId}">
-                                    <input type="hidden" name="libros[${libroId}][cantidad]" value="${cantidad}">
-                                `;
+    // Función para seleccionar un libro
+    function selectBook(libro, cantidad = 1) {
+        if (selectedBookIds.has(libro.id)) return;
 
-                                var tablaLibros = document.getElementById('tablaLibros').getElementsByTagName('tbody')[0];
-                                var fila = tablaLibros.insertRow();
-                                var celdaTitulo = fila.insertCell(0);
-                                var celdaCantidad = fila.insertCell(1);
-                                celdaTitulo.textContent = titulo;
-                                celdaCantidad.textContent = cantidad;
-                            }
-                        });
-                    });
-                }
-            })
-            .catch(error => console.error('Error al buscar libros:', error));
+        const newRow = selectedBookRowTemplate.content.cloneNode(true);
+        const tr = newRow.querySelector('tr');
+        const index = selectedBooksList.children.length;
+
+        const img = tr.querySelector('img');
+        img.src = libro.img_url || '';
+        img.onerror = function() {
+            this.classList.add('error');
+        };
+
+        tr.querySelector('.book-title').textContent = libro.titulo;
+        tr.querySelector('.badge').textContent = `${libro.disponibles} ${libro.disponibles === 1 ? 'disponible' : 'disponibles'}`;
+        
+        const libroIdInput = tr.querySelector('input[name="libros[INDEX][libro_id]"]');
+        const cantidadInput = tr.querySelector('input[name="libros[INDEX][cantidad]"]');
+        
+        libroIdInput.name = `libros[${index}][libro_id]`;
+        libroIdInput.value = libro.id;
+        
+        cantidadInput.name = `libros[${index}][cantidad]`;
+        cantidadInput.max = libro.disponibles;
+        cantidadInput.value = cantidad;
+
+        tr.querySelector('.remove-book').addEventListener('click', () => {
+            selectedBookIds.delete(libro.id);
+            tr.remove();
+            reindexInputs();
+            showSearchResults(searchInput.value);
+        });
+
+        cantidadInput.addEventListener('change', function() {
+            const value = parseInt(this.value) || 0;
+            if (value > libro.disponibles) {
+                this.value = libro.disponibles;
+            }
+            if (value < 1) {
+                this.value = 1;
+            }
+        });
+
+        selectedBooksList.appendChild(tr);
+        selectedBookIds.add(libro.id);
+        
+        // Limpiar búsqueda y ocultar resultados
+        searchInput.value = '';
+        searchResults.classList.add('d-none');
+    }
+
+    // Función para reindexar inputs después de eliminar
+    function reindexInputs() {
+        const rows = selectedBooksList.querySelectorAll('tr');
+        rows.forEach((row, index) => {
+            row.querySelector('input[type="hidden"]').name = `libros[${index}][libro_id]`;
+            row.querySelector('input[type="number"]').name = `libros[${index}][cantidad]`;
+        });
+    }
+
+    // Event listeners
+    searchInput.addEventListener('input', () => showSearchResults(searchInput.value));
+    searchInput.addEventListener('focus', () => showSearchResults(searchInput.value));
+    
+    // Cerrar resultados al hacer click fuera
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            searchResults.classList.add('d-none');
+        }
     });
-    </script>
 
+    // Validación del formulario
+    document.getElementById('prestamoForm').addEventListener('submit', function(e) {
+        if (selectedBookIds.size === 0) {
+            e.preventDefault();
+            alert('Debe seleccionar al menos un libro para el préstamo.');
+        }
+    });
 
-
+    // Restaurar libros seleccionados si hay errores de validación
+    if (oldLibros.length > 0) {
+        oldLibros.forEach(oldLibro => {
+            const libro = libros.find(l => l.id == oldLibro.libro_id);
+            if (libro) {
+                selectBook(libro, oldLibro.cantidad);
+            }
+        });
+    }
+});
+</script>
 @endsection
