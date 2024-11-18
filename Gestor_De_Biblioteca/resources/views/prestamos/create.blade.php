@@ -101,10 +101,10 @@
         </td>
         <td style="width: 200px;">
             <input type="hidden" name="libros[INDEX][libro_id]">
-            <input type="number" 
-                class="form-control cantidad-input" 
-                name="libros[INDEX][cantidad]" 
-                min="1" 
+            <input type="number"
+                class="form-control cantidad-input"
+                name="libros[INDEX][cantidad]"
+                min="1"
                 style="width: 100px;"
                 required>
         </td>
@@ -159,8 +159,8 @@
     display: none;
 }
 
-.book-image-container img:not([src]), 
-.book-image-container img[src=""], 
+.book-image-container img:not([src]),
+.book-image-container img[src=""],
 .book-image-container img.error {
     display: none;
 }
@@ -187,22 +187,22 @@ window.addEventListener('load', function() {
     // Datos de libros y libros seleccionados previamente
     const libros = @json($libros);
     const oldLibros = @json(old('libros', []));
-    
+
     // Elementos del DOM
     const searchInput = document.getElementById('searchBooks');
     const searchResults = document.getElementById('searchResults');
     const selectedBooksList = document.getElementById('selectedBooksList');
     const selectedBookRowTemplate = document.getElementById('selectedBookRowTemplate');
-    
+
     // Set para mantener track de los libros seleccionados
     const selectedBookIds = new Set();
-    
+
     // Función para mostrar resultados de búsqueda
     function showSearchResults(searchTerm = '') {
         const listGroup = searchResults.querySelector('.list-group');
         listGroup.innerHTML = '';
 
-        const results = libros.filter(libro => 
+        const results = libros.filter(libro =>
             libro.titulo.toLowerCase().includes(searchTerm.toLowerCase()) &&
             !selectedBookIds.has(libro.id) &&
             libro.disponibles > 0
@@ -246,13 +246,13 @@ window.addEventListener('load', function() {
 
         tr.querySelector('.book-title').textContent = libro.titulo;
         tr.querySelector('.badge').textContent = `${libro.disponibles} ${libro.disponibles === 1 ? 'disponible' : 'disponibles'}`;
-        
+
         const libroIdInput = tr.querySelector('input[name="libros[INDEX][libro_id]"]');
         const cantidadInput = tr.querySelector('input[name="libros[INDEX][cantidad]"]');
-        
+
         libroIdInput.name = `libros[${index}][libro_id]`;
         libroIdInput.value = libro.id;
-        
+
         cantidadInput.name = `libros[${index}][cantidad]`;
         cantidadInput.max = libro.disponibles;
         cantidadInput.value = cantidad;
@@ -264,19 +264,19 @@ window.addEventListener('load', function() {
             showSearchResults(searchInput.value);
         });
 
-        cantidadInput.addEventListener('change', function() {
-            const value = parseInt(this.value) || 0;
-            if (value > libro.disponibles) {
-                this.value = libro.disponibles;
-            }
-            if (value < 1) {
-                this.value = 1;
-            }
-        });
+        // cantidadInput.addEventListener('change', function() {
+        //     const value = parseInt(this.value) || 0;
+        //     if (value > libro.disponibles) {
+        //         this.value = libro.disponibles;
+        //     }
+        //     if (value < 1) {
+        //         this.value = 1;
+        //     }
+        // });
 
         selectedBooksList.appendChild(tr);
         selectedBookIds.add(libro.id);
-        
+
         // Limpiar búsqueda y ocultar resultados
         searchInput.value = '';
         searchResults.classList.add('d-none');
@@ -294,7 +294,7 @@ window.addEventListener('load', function() {
     // Event listeners
     searchInput.addEventListener('input', () => showSearchResults(searchInput.value));
     searchInput.addEventListener('focus', () => showSearchResults(searchInput.value));
-    
+
     // Cerrar resultados al hacer click fuera
     document.addEventListener('click', (e) => {
         if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
