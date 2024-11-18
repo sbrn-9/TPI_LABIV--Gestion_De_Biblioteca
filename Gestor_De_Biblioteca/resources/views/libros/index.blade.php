@@ -119,13 +119,7 @@
         const detailButton = document.getElementById('detailButton');
         const editButton = document.getElementById('editButton');
         const deleteButton = document.getElementById('deleteButton');
-            // Create invisible elements if they don't exist
-            if (!detailButton) {
-                detailButton = document.createElement('button');
-                detailButton.style.display = 'none';
-                document.body.appendChild(detailButton);
-            }
-
+    
 
         if (lastCheckedRadio === radio) {
             radio.checked = false;

@@ -48,14 +48,14 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-
+            @if(Auth::check() )
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="{{route('prestamos.index')}}">
                     <i class="fas fa-fw fa-home"></i>
                     <span>Mis préstamos</span></a>
             </li>
-
+            @endif
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -92,7 +92,7 @@
                 </a>
                 @endif
             </li>
-
+            @if(Auth::check() )
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="{{route('welcome')}}" data-toggle="collapse" data-target="#collapsePages"
@@ -112,7 +112,7 @@
                     </div>
                 </div>
             </li>
-
+            @endif
             <!-- Nav Item - Tables -->
 
 
