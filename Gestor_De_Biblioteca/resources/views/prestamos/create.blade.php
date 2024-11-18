@@ -26,7 +26,7 @@
 
                 <div class="form-group mb-3">
                     <label for="fecha_prestamo">Fecha de Préstamo</label>
-                    <input type="date" class="form-control @error('fecha_prestamo') is-invalid @enderror" id="fecha_prestamo" name="fecha_prestamo" value="{{ old('fecha_prestamo') }}" required>
+                    <input type="date" class="form-control @error('fecha_prestamo') is-invalid @enderror" id="fecha_prestamo" name="fecha_prestamo" value="{{ old('fecha_prestamo', today()->toDateString()) }}" required>
                     @error('fecha_prestamo')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -34,7 +34,7 @@
 
                 <div class="form-group mb-3">
                     <label for="fecha_devolucion">Fecha de Devolución</label>
-                    <input type="date" class="form-control @error('fecha_devolucion') is-invalid @enderror" id="fecha_devolucion" name="fecha_devolucion" value="{{ old('fecha_devolucion') }}" required>
+                    <input type="date" class="form-control @error('fecha_devolucion') is-invalid @enderror" id="fecha_devolucion" name="fecha_devolucion" value="{{ old('fecha_devolucion', today()->addDays(7)->toDateString()) }}" required>
                     @error('fecha_devolucion')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

@@ -22,7 +22,7 @@ class StorePrestamoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'fecha_prestamo' => 'required|date|after_or_equal:' . today(),
+            'fecha_prestamo' => 'required|date|after_or_equal:' . today()->toDateString(),
             'fecha_devolucion' => 'required|date|after_or_equal:fecha_prestamo',
             'libros' => ['required', 'array'], // Este será el array de libros
             'libros.*.libro_id' => ['required', 'exists:libros,id'], // Verificamos que el libro existe
