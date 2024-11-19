@@ -5,7 +5,6 @@
 
     <!-- Page Heading -->
     <h1>Lista de Préstamos</h1>
-
     <a href="{{route('prestamos.create')}}" class="btn btn-primary m-2">
         <i class="fas fa-plus"></i> Nuevo Préstamo
     </a>
@@ -169,3 +168,45 @@ function toggleButtons(radio) {
 
 @endsection
 
+
+@section('alerts')
+    @isset($alerts)
+    @if(!is_null($alerts))
+    @if (count($alerts) > 0)
+    <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-bell fa-fw"></i>
+            <!-- Counter - Alerts -->
+            <span class="badge badge-danger badge-counter">{{count($alerts)}}+</span>
+        </a>
+        <!-- Dropdown - Alerts -->
+        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+        aria-labelledby="alertsDropdown">
+        <h6 class="dropdown-header">
+            Notificaciones
+        </h6>
+        @foreach($alerts as $alert)
+        @if(Auth::user()->role->isAdmin())
+        <a class="dropdown-item d-flex align-items-center" href="{{route('prestamos.show', $alert->id)}}">
+        @else
+        <a class="dropdown-item d-flex align-items-center" href="{{route('cliente-prestamos.show', $alert->id)}}">
+        @endif
+            <div class="mr-3">
+                <div class="icon-circle bg-primary">
+                    <i class="fas fa-file-alt text-white"></i>
+                </div>
+            </div>
+            <div>
+                <div class="small text-gray-500">{{$alert->fecha_devolucion}}</div>
+                <span class="font-weight-bold">Préstamo Próximo a Vencer</span>
+            </div>
+        </a>
+        @endforeach
+
+    </div>
+    </li>
+    @endif
+    @endif
+    @endisset
+@endsection
