@@ -1,5 +1,5 @@
 @extends('layouts.admindashboard')
-
+@section('title','ALBA Library-Mostrar Prestamos')
 @section('content')
 <div class="container mt-4">
     @if(Auth::user()->role->isAdmin())

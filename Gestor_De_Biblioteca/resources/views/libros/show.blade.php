@@ -1,5 +1,5 @@
 @extends('layouts.admindashboard')
-
+@section('title','ALBA Library-Mostrar Libros')
 @section('content')
 <div class="container mt-4">
     <a href="{{route('libros.index')}}" class="btn btn-secondary mb-3">

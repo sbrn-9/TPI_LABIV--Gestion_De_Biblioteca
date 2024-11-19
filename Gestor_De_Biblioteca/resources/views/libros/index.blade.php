@@ -1,5 +1,5 @@
 @extends('layouts.AdminDashboard')
-@section('title')
+@section('title','ALBA Library-Libros')
 @section('content')
 
 <div class="container-fluid">
@@ -12,7 +12,7 @@
     <a href="{{route('libros.create')}}" class="btn btn-primary m-2">
         <i class="fas fa-plus"></i> Nuevo Libro
     </a>
-  
+
     @endif
 
     <button id="detailButton" class="btn btn-secondary m-2" disabled>
@@ -119,7 +119,7 @@
         const detailButton = document.getElementById('detailButton');
         const editButton = document.getElementById('editButton');
         const deleteButton = document.getElementById('deleteButton');
-    
+
 
         if (lastCheckedRadio === radio) {
             radio.checked = false;

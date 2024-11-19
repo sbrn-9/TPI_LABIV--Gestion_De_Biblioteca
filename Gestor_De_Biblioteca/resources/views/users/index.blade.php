@@ -1,5 +1,5 @@
 @extends('layouts.AdminDashboard')
-@section('title')
+@section('title', 'ALBA Library-Usuarios')
 @section('content')
 
 <div class="container-fluid">
@@ -58,7 +58,7 @@
                             <td class="text-center align-middle">
                                     {{ $user->role->getNombreTipo() }}
                             </td>
-                          
+
                         </tr>
                         @endforeach
                     </tbody>
