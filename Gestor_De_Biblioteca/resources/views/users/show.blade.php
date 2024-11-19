@@ -25,6 +25,14 @@
                             <td>{{ $user->email }}</td>
                         </tr>
                         <tr>
+                            <th>Dirección</th>
+                            <td>{{ $user->address }}</td>
+                        </tr>
+                        <tr>
+                            <th>Telefono</th>
+                            <td>{{ $user->phone_number }}</td>
+                        </tr>
+                        <tr>
                             <th>Rol</th>
                             <td>
                                 <span class="badge text-white {{ $user->role == 0 ? 'bg-success' : 'bg-primary' }}">

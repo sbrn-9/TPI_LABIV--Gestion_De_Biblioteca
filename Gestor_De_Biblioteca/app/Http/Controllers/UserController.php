@@ -69,6 +69,8 @@ class UserController extends Controller
 
         $user->update($validated);
 
+        $user->save();
+
         return redirect()->route('users.index')->with('success', 'Usuario Actualizado Correctamente');
     }
 

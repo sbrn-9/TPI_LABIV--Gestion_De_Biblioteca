@@ -35,6 +35,16 @@
             <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required class="form-control">
         </div>
 
+        <div class="form-group">
+            <label for="address">Dirección</label>
+            <input type="text" name="address" id="address" value="{{ old('address', $user->address) }}" required class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="phone_number">Teléfono</label>
+            <input type="text" name="phone_number" id="phone_number" value="{{ old('phone_number', $user->phone_number) }}" required class="form-control">
+        </div>
+
         <button type="submit" class="btn btn-primary mt-3">
             <i class="fas fa-save"></i> Actualizar Usuario
         </button>
