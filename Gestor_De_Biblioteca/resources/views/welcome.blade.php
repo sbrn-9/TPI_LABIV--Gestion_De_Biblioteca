@@ -125,3 +125,56 @@
     </div>
 </div>
 @endsection
+@section('alerts')
+    @auth
+        @isset($alerts)
+        @if(!is_null($alerts))
+        @if (count($alerts) > 0)
+        <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-bell fa-fw"></i>
+                <!-- Counter - Alerts -->
+                <span class="badge badge-danger badge-counter">{{count($alerts)}}+</span>
+            </a>
+            <!-- Dropdown - Alerts -->
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header">
+                    Notificaciones
+                </h6>
+                @foreach ($alerts as $alert)
+                @if(Auth::user()->role->isAdmin())
+                <a class="dropdown-item d-flex align-items-center" href="{{route('prestamos.show', $alert->id)}}">
+                @else
+                <a class="dropdown-item d-flex align-items-center" href="{{route('cliente-prestamos.show', $alert->id)}}">
+                @endif
+                    <div class="mr-3">
+                        <div class="icon-circle bg-primary">
+                            <i class="fas fa-file-alt text-white"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="small text-gray-500">{{$alert->fecha_devolucion}}</div>
+                        @if(Auth::user()->role->isAdmin())
+                        <span class="font-weight-bold">Préstamo de: {{$alert->propietario->name}}</span>
+                        <span class="font-weight-bold">Próximo a Vencer</span>
+                        @elseif(Auth::user()->role->isCliente())
+                        <span class="font-weight-bold">Préstamo próximo a Vencer</span>
+                        @endif
+                    </div>
+                </a>
+                @endforeach
+                @if(Auth::user()->role->isAdmin())
+                <a class="dropdown-item text-center small text-gray-500" href="{{route('prestamos.index')}}">Otros Préstamos</a>
+                @elseif(Auth::user()->role->isCliente())
+                <a class="dropdown-item text-center small text-gray-500" href="{{route('cliente-prestamos.index')}}">Otros Préstamos</a>
+                @endif
+            </div>
+        </li>
+        @endif
+        @endif
+        @endisset
+    @endauth
+
+@endsection

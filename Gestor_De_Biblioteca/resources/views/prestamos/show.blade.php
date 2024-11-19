@@ -2,13 +2,15 @@
 
 @section('content')
 <div class="container mt-4">
-    <a href="{{ route('prestamos.index') }}" class="btn btn-secondary mb-3">
-        <i class="fa fa-chevron-left"></i> Volver
-    </a>
+    @if(Auth::user()->role->isAdmin())
+        <a href="{{ route('prestamos.index') }}" class="btn btn-secondary mb-3">
+            <i class="fa fa-chevron-left"></i> Volver
+        </a>
 
-    @if(Auth::user()->role->isCliente())
-        <a href="{{ route('cliente-prestamos.index') }}" class="btn btn-secondary mb-3"><i class="fa fa-chevron-left"></i> Volver</a>
-
+    @elseif(Auth::user()->role->isCliente())
+        <a href="{{ route('cliente-prestamos.index') }}" class="btn btn-secondary mb-3">
+            <i class="fa fa-chevron-left"></i> Volver
+        </a>
     @endif
 
     <div class="card">
