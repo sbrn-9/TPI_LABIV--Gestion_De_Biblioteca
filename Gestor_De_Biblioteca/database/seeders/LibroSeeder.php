@@ -243,5 +243,6 @@ class LibroSeeder extends Seeder
         foreach ($programacion as $libro) {
             Libro::create($libro);
         }
+        Libro::Factory(100)->create();
     }
 }
