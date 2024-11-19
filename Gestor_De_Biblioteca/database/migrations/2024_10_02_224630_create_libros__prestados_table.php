@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('libros__prestados', function (Blueprint $table) {
+        Schema::create('libros_prestados', function (Blueprint $table) {
             $table->id();
             $table->tinyInteger('estado');
             $table->unsignedBigInteger('prestamo_id');
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('libros__prestados--resources');
+        Schema::dropIfExists('libros_prestados--resources');
     }
 };

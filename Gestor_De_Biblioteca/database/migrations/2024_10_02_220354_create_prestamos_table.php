@@ -21,8 +21,8 @@ return new class extends Migration
             $table->foreign('cliente')->references('id')->on('users')
             ->noActionOnDelete()->cascadeOnUpdate();
 
-            $table->unsignedBigInteger('admin_modificador')->nullable();
-            $table->foreign('admin_modificador')->references('id')->on('users')
+            $table->unsignedBigInteger('admin_activador')->nullable();
+            $table->foreign('admin_activador')->references('id')->on('users')
             ->noActionOnDelete()->cascadeOnUpdate();
 
             $table->unsignedBigInteger('admin_cancelador')->nullable();;
