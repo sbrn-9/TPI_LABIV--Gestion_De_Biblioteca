@@ -54,7 +54,7 @@
                         @foreach ($prestamos as $prestamo)
                         <tr>
                             <td class="text-center">
-                                <input type="radio" name="selectedPrestamo" value="{{ $prestamo->id }}" data-estado="{{ $prestamo->estado }}" onclick="toggleButtons(this)">
+                                <input type="radio" name="selectedPrestamo" value="{{ $prestamo->id }}" data-estado="{{ $prestamo->estado }}" onclick="toggleButtons(this, {{ Auth::user()->role->isAdmin() ? 'true' : 'false' }})">
                             </td>
                             <td>{{ $prestamo->id }}</td>
                             <td>{{ $prestamo->propietario->name }}</td>
@@ -129,42 +129,55 @@
 </div>
 
 <script>
-let lastCheckedRadio = null;
+    let lastCheckedRadio = null;
 
-function toggleButtons(radio) {
-    const detailButton = document.getElementById('detailButton');
-    const editButton = document.getElementById('editButton');
-    const deleteButton = document.getElementById('deleteButton');
-    const deleteForm = document.getElementById('deleteForm');
+    function toggleButtons(radio, isAdmin) {
+        const detailButton = document.getElementById('detailButton');
+        const editButton = document.getElementById('editButton');
+        const deleteButton = document.getElementById('deleteButton');
+        const deleteForm = document.getElementById('deleteForm');
 
-    if (lastCheckedRadio === radio) {
-        radio.checked = false;
-        lastCheckedRadio = null;
-        detailButton.disabled = true;
-        if (editButton)editButton.disabled = true;
-        if (deleteButton)deleteButton.disabled = true;
-    } else {
-        lastCheckedRadio = radio;
-        const prestamoId = radio.value;
-        const prestamoEstado = radio.getAttribute('data-estado');
-        detailButton.disabled = false;
-        if (editButton)editButton.disabled = false;
-        if (deleteButton)deleteButton.disabled = false;
-        detailButton.onclick = () => window.location.href = `{{ url('prestamos') }}/${prestamoId}`;
-        if (editButton) editButton.onclick = () => window.location.href = `{{ url('prestamos') }}/${prestamoId}/edit`;
-        if (deleteButton)deleteButton.onclick = () => {
-            if (prestamoEstado === 'activo' || prestamoEstado === 'cerrado') {
-                alert(`No se puede cancelar el préstamo porque está en estado ${prestamoEstado}.`);
+        if (lastCheckedRadio === radio) {
+            radio.checked = false;
+            lastCheckedRadio = null;
+            detailButton.disabled = true;
+            if (editButton) editButton.disabled = true;
+            if (deleteButton) deleteButton.disabled = true;
+        } else {
+            lastCheckedRadio = radio;
+            const prestamoId = radio.value;
+            const prestamoEstado = radio.getAttribute('data-estado');
+            detailButton.disabled = false;
+            if (editButton) editButton.disabled = false;
+            if (deleteButton) deleteButton.disabled = false;
+
+            if (isAdmin) {
+                detailButton.onclick = () => window.location.href = `{{ url('prestamos') }}/${prestamoId}`;
+                editButton.onclick = () => window.location.href = `{{ url('prestamos') }}/${prestamoId}/edit`;
             } else {
-                if (confirm('¿Estás seguro de que deseas eliminar este préstamo?')) {
-                    deleteForm.action = `{{ url('prestamos') }}/${prestamoId}`;
-                    deleteForm.submit();
-                }
+                console.log("Es cliente")
+                detailButton.onclick = () => window.location.href = `{{ url('cliente/mis-prestamos') }}/${prestamoId}`;
+                if (editButton) editButton.onclick = () => window.location.href = `{{ url('cliente/mis-prestamos') }}/${prestamoId}/edit`;
             }
-        };
+
+            if (deleteButton) deleteButton.onclick = () => {
+                if (prestamoEstado === 'activo' || prestamoEstado === 'cerrado') {
+                    alert(`No se puede cancelar el préstamo porque está en estado ${prestamoEstado}.`);
+                } else {
+                    if (confirm('¿Estás seguro de que deseas eliminar este préstamo?')) {
+                        if (isAdmin) {
+                            deleteForm.action = `{{ url('prestamos') }}/${prestamoId}`;
+                        } else {
+                            deleteForm.action = `{{ url('cliente/prestamos') }}/${prestamoId}`;
+                        }
+                        deleteForm.submit();
+                    }
+                }
+            };
+        }
     }
-}
-</script>
+    </script>
+
 
 @endsection
 

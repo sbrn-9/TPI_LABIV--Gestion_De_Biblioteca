@@ -38,6 +38,7 @@ Route::middleware('auth')->middleware(IsRoleCliente::class)->group(function () {
     Route::get('/cliente/libros/{libro}', [PrestamoController::class, 'show'])->name('cliente-libros.show');
     Route::get('/cliente/mis-prestamos', [PrestamoController::class, 'index'])->name('cliente-prestamos.index');
     Route::get('/cliente/mis-prestamos/{prestamo}', [PrestamoController::class, 'show'])->name('cliente-prestamos.show');
+    Route::get('/cliente/mis-prestamos/{prestamo}/edit', [PrestamoController::class, 'edit'])->name('cliente-prestamos.edit');
     Route::patch('/cliente/prestamos/{id}/devolucion', [PrestamoController::class, 'update'])->name('cliente-prestamos.update');
     Route::delete('/cliente/prestamos/{id}', [PrestamoController::class, 'destroy'])->name('cliente-prestamos.destroy');
     Route::post('/cliente/prestamos', [PrestamoController::class, 'store'])->name('cliente-prestamos.store');
