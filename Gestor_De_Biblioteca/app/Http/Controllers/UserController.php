@@ -32,13 +32,13 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $validated = $request->validated();
-        
+
         // Hash the password
         $validated['password'] = Hash::make($validated['password']);
-        
+
         // Set role (0 for admin, 1 for client)
         $validated['role'] = $validated['role'] ?? 1; // Default to client if not specified
-        
+
         User::create($validated);
 
         return redirect()->route('users.index')->with('success', 'Usuario creado exitosamente.');
@@ -66,7 +66,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $validated = $request->validated();
-        
+
         $user->update($validated);
 
         return redirect()->route('users.index')->with('success', 'Usuario Actualizado Correctamente');

@@ -111,6 +111,7 @@ public function store(StorePrestamoRequest $request)
      */
     public function show(Prestamo $prestamo)
     {
+
         $prestamoLibrosInfo = Libros_Prestados::where('prestamo_id', $prestamo->id)->get();
 
         return view('prestamos.show', ['prestamo' => $prestamo, 'prestamoLibrosInfo' => $prestamoLibrosInfo]);

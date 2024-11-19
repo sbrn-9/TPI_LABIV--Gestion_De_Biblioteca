@@ -50,22 +50,22 @@
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-start mb-2">
                                             <h5 class="card-title mb-0 flex-grow-1">{{ $info->libro->titulo }}</h5>
-                                            <button type="button" class="btn btn-link text-danger p-0 ms-2 delete-book" 
+                                            <button type="button" class="btn btn-link text-danger p-0 ms-2 delete-book"
                                                     onclick="deleteBook({{ $info->libro->id }}, {{ $loop->index }})">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </div>
                                         <p class="card-text text-muted small mb-3">
-                                            {{ $info->cantidad }} {{($info->cantidad == 1 ? ' pedido' : ' pedidos')}} | 
+                                            {{ $info->cantidad }} {{($info->cantidad == 1 ? ' pedido' : ' pedidos')}} |
                                             {{ $info->libro->disponibles }} {{($info->libro->disponibles == 1 ? ' disponible' : ' disponibles')}}
                                         </p>
                                         <input type="hidden" name="libros[{{ $loop->index }}][libro_id]" value="{{ $info->libro->id }}">
-                                        <input type="number" 
-                                               class="form-control @error('libros.'.$loop->index.'.cantidad') is-invalid @enderror" 
-                                               name="libros[{{ $loop->index }}][cantidad]" 
+                                        <input type="number"
+                                               class="form-control @error('libros.'.$loop->index.'.cantidad') is-invalid @enderror"
+                                               name="libros[{{ $loop->index }}][cantidad]"
                                                id="cantidad-{{ $info->libro->id }}"
-                                               min="0" 
-                                               placeholder="Cantidad" 
+                                               min="0"
+                                               placeholder="Cantidad"
                                                value="{{ old('libros.' . $loop->index . '.cantidad', $info->cantidad) }}">
                                         @error('libros.'.$loop->index.'.cantidad')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -92,14 +92,14 @@ function deleteBook(bookId, index) {
     // Get the book container and quantity input
     const container = document.getElementById(`book-container-${bookId}`);
     const quantityInput = document.getElementById(`cantidad-${bookId}`);
-    
+
     // Set quantity to 0
     quantityInput.value = 0;
-    
+
     // Hide the container with animation
     container.style.transition = 'opacity 0.3s ease-out';
     container.style.opacity = '0';
-    
+
     setTimeout(() => {
         container.style.display = 'none';
     }, 300);
