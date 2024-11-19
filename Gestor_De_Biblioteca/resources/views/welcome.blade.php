@@ -9,6 +9,58 @@
         <p class="lead text-gray-600">Tu destino para descubrir, aprender y crecer a través de la lectura</p>
     </div>
 
+    <div class="row">
+        @if(!Auth::check())
+        <a href="#" class="col-xl-4 col-md-6 mb-4"  style="text-decoration: none; cursor: pointer;transition: opacity 0.3s ease;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Catálogo Digital</div>
+                            <div class="h5 mb-0 font-weight-normal text-gray-800">Explora nuestra extensa colección de libros</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-book fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="#" class="col-xl-4 col-md-6 mb-4"  style="text-decoration: none; cursor: pointer;transition: opacity 0.3s ease;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Préstamos Fáciles</div>
+                            <div class="h5 mb-0 font-weight-normal text-gray-800">Gestiona tus préstamos de forma simple</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-bookmark fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="#" class="col-xl-4 col-md-6 mb-4"  style="text-decoration: none; cursor: pointer;transition: opacity 0.3s ease;" onmouseover="this.style.opacity='0.5'" onmouseout="this.style.opacity='1'">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Reportes</div>
+                            <div class="h5 mb-0 font-weight-normal text-gray-800">Estadísticas y análisis detallados</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-chart-line fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+     @endif
     <!-- Features Section -->
     <div class="row">
         @if(Auth::check() && Auth::user()->role->isCliente())
@@ -115,9 +167,12 @@
 
      @endif
 
+
     <!-- Call to Action -->
-    <div class="row justify-content-center mt-4">
-        <div class="col-lg-12">
+
+    <div class="container-fluid mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-12 ">
             <div class="card shadow mb-4">
                 <div class="card-body text-center">
                     <h4 class="mb-4">Comienza tu viaje literario hoy</h4>
@@ -156,6 +211,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- About Section -->
