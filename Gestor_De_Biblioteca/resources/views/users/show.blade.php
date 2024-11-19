@@ -1,5 +1,5 @@
 @extends('layouts.AdminDashboard')
-@section('title')
+@section('title', 'ALBA Library-Mostrar Usuario')
 @section('content')
 
 <div class="container-fluid">

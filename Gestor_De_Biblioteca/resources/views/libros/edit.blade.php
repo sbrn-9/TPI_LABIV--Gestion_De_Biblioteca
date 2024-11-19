@@ -1,5 +1,5 @@
 @extends('layouts.admindashboard')
-
+@section('title','ALBA Library-Editar Libro')
 @section('content')
 <div class="container mt-4">
     <a href="{{route('libros.index')}}" class="btn btn-secondary mb-3">
@@ -133,7 +133,7 @@
                     @error('imagen')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
-                    
+
                     <div id="imagePreview" class="mt-2">
                         <div id="currentImage">
                             @if($libro->img_url)
@@ -161,16 +161,16 @@ function previewImage(input) {
     const preview = document.getElementById('preview');
     const previewDiv = document.getElementById('newImagePreview');
     const currentImage = document.getElementById('currentImage');
-    
+
     if (input.files && input.files[0]) {
         const reader = new FileReader();
-        
+
         reader.onload = function(e) {
             preview.src = e.target.result;
             previewDiv.style.display = 'block';
             currentImage.style.display = 'none';
         }
-        
+
         reader.readAsDataURL(input.files[0]);
     } else {
         preview.src = '';

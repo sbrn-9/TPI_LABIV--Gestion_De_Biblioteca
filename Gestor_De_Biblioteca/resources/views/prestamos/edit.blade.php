@@ -1,5 +1,5 @@
 @extends('layouts.AdminDashboard')
-
+@section('title','ALBA Library-Editar Prestamos')
 @section('content')
 <div class="container mt-4">
     <a href="{{route('prestamos.index')}}" class="btn btn-secondary mb-3">
