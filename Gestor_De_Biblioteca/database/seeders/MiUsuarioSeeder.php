@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\TipoUsuario;
+use App\Enums\TipoUsuario;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -15,15 +15,21 @@ class MiUsuarioSeeder extends Seeder
      */
     public function run(): void
     {
-        /*
-        ***************************COMPLETAR CON TUS DATOS*******************************
-        */
-        // User::factory()->create([
-        //         'name' => 'Sabrina Ayelen Arevalo',
-        //         'email' => 'sabrina@gmail.com',
-        //         'password' => Hash::make('12345678'),
-        //         'role' => TipoUsuario::Admin->value,
-        //     ]);
-
+        User::factory()->create([
+                'name' => 'Emilio Puljiz',
+                'email' => 'profe@admin.com',
+                'password' => Hash::make('12345678'),
+                'phone_number' => '5551234567',
+                'address' => 'Calle de Admin, Ciudad A',
+                'role' => TipoUsuario::Admin->value,
+            ]);
+        User::factory()->create([
+                'name' => 'Emilio Puljiz',
+                'email' => 'profe@cliente.com',
+                'password' => Hash::make('12345678'),
+                'phone_number' => '5551234567',
+                'address' => 'Calle de Cliente, Ciudad A',
+                'role' => TipoUsuario::Cliente->value,
+            ]);
     }
 }

@@ -14,6 +14,7 @@ class ClientesSeeder extends Seeder
      */
     public function run(): void
     {
+
         $clientes = [
             [
                 'name' => 'Ana García',
@@ -21,7 +22,7 @@ class ClientesSeeder extends Seeder
                 'password' => Hash::make('12345678'),
                 'phone_number' => '5551234567',
                 'address' => 'Calle Falsa 123, Ciudad A',
-                'role' => TipoUsuario::Cliente->value, // Asumiendo que el rol 1 es cliente
+                'role' => TipoUsuario::Cliente->value,
             ],
             [
                 'name' => 'Luis Martínez',
@@ -56,8 +57,10 @@ class ClientesSeeder extends Seeder
             ],
         ];
 
+
         foreach ($clientes as $cliente) {
             User::create($cliente);
         }
+
     }
 }

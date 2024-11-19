@@ -35,9 +35,9 @@ class PrestamosSeeder extends Seeder
                 'cliente' => $ana->id
             ],
             [
-                'estado' => EstadoPrestamo::Cerrado->value,
-                'fecha_prestamo' => '2024-08-15',
-                'fecha_devolucion' => '2024-08-15',
+                'estado' => EstadoPrestamo::Pendiente->value,
+                'fecha_prestamo' => '2024-11-15',
+                'fecha_devolucion' => '2024-11-20',
                 'cliente' =>    $ana->id
             ],
             [
@@ -65,9 +65,9 @@ class PrestamosSeeder extends Seeder
                 'cliente' =>    $ana->id
             ],
             [
-                'estado' => EstadoPrestamo::Cerrado->value,
-                'fecha_prestamo' => '2024-08-10',
-                'fecha_devolucion' => '2024-08-12',
+                'estado' => EstadoPrestamo::Pendiente->value,
+                'fecha_prestamo' => '2024-11-22',
+                'fecha_devolucion' => '2024-11-29',
                 'cliente' => $luis->id
             ],
             [
@@ -95,15 +95,15 @@ class PrestamosSeeder extends Seeder
                 'cliente' => $jorge->id
             ],
             [
-                'estado' => EstadoPrestamo::Cerrado->value,
-                'fecha_prestamo' => '2024-09-16',
-                'fecha_devolucion' => '2024-09-18',
+                'estado' => EstadoPrestamo::Activo->value,
+                'fecha_prestamo' => '2024-11-16',
+                'fecha_devolucion' => '2024-11-30',
                 'cliente' =>    $jorge->id
             ],
             [
-                'estado' => EstadoPrestamo::Cerrado->value,
-                'fecha_prestamo' => '2024-09-19',
-                'fecha_devolucion' => '2024-09-29',
+                'estado' => EstadoPrestamo::Activo->value,
+                'fecha_prestamo' => '2024-11-15',
+                'fecha_devolucion' => '2024-11-20',
                 'cliente' => $lucia->id
             ],
             [
@@ -137,9 +137,9 @@ class PrestamosSeeder extends Seeder
                 'cliente' => $lucia->id
             ],
             [
-                'estado' => EstadoPrestamo::Cerrado->value,
-                'fecha_prestamo' => '2024-09-19',
-                'fecha_devolucion' => '2024-09-23',
+                'estado' => EstadoPrestamo::Activo->value,
+                'fecha_prestamo' => '2024-11-19',
+                'fecha_devolucion' => '2024-11-24',
                 'cliente' => $lucia->id
             ]
         ];
@@ -259,9 +259,9 @@ class PrestamosSeeder extends Seeder
             'cliente' => $carmen->id
         ],
         [
-            'estado' => EstadoPrestamo::Cerrado->value,
-            'fecha_prestamo' => '2024-09-19',
-            'fecha_devolucion' => '2024-09-23',
+            'estado' => EstadoPrestamo::Pendiente->value,
+            'fecha_prestamo' => '2024-11-24',
+            'fecha_devolucion' => '2024-11-30',
             'cliente' => $carmen->id
         ],
 
