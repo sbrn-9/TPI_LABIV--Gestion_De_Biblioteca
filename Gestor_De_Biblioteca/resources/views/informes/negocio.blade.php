@@ -171,3 +171,12 @@ Estadisticas de Negocio
     </div>
 </div>
 @endsection
+@section('scripts')
+
+    <script src="{{asset('assets/js/Chart.js')}}"></script>
+
+    <!-- Page level custom scripts -->
+
+    <script src="{{asset('assets/js/chart-pie-demo.js')}}"></script>
+    <script src="{{asset('assets/js/chart-bar-demo.js')}}"></script>
+@endsection

@@ -289,12 +289,7 @@
     <script src="{{asset('assets/js/sb-admin-2.js')}}"></script>
 
     <!-- Page level plugins -->
-    <script src="{{asset('assets/js/Chart.js')}}"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="{{asset('asset/js/chart-area-demo.js')}}"></script>
-    <script src="{{asset('assets/js/chart-pie-demo.js')}}"></script>
-    <script src="{{asset('assets/js/chart-bar-demo.js')}}"></script>
+    @yield('scripts')
 
 
  {{--  --}}

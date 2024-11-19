@@ -5,7 +5,6 @@ Chart.defaults.global.defaultFontColor = '#858796';
 // Pie Chart Example
 var ctx = document.getElementById("myPieChart");
 var catNames = JSON.parse(ctx.getAttribute("data-labels"));
-console.log(catNames);
 
 var topCats = JSON.parse(ctx.getAttribute("data-values"));
 var myPieChart = new Chart(ctx, {
