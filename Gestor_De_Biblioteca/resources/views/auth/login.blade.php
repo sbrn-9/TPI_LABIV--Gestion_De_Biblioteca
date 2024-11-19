@@ -16,10 +16,14 @@
     <script src="{{asset('assets/js/init-alpine.js')}}"></script>
   </head>
   <body>
-    <div class="flex items-center min-h-screen p-6 bg-gray-50 light:bg-gray-50 ">
-      <div
-        class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl light:bg-gray-50"
-      >
+    <div class="min-h-screen p-6 bg-gray-50">
+        <div class="flex justify-start">
+            <a href="{{ route('welcome') }}" class="bg-gray-50 text-gray-700 px-4 py-2 rounded shadow">
+                volver
+            </a>
+        </div>
+        <div class="flex items-center">
+            <div class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl light:bg-gray-50">
         <div class="flex flex-col overflow-y-auto md:flex-row">
           <div class="h-32 md:h-auto md:w-1/2">
             <img
@@ -86,7 +90,7 @@
                   class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
                   href="{{ route('password.request') }}"
                 >
-                  Forgot your password?
+                  Olvidaste tu contraseña?
                 </a>
               </p>
               <p class="mt-1">
@@ -94,7 +98,7 @@
                   class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
                   href="{{ route('register')}}"
                 >
-                  Create account
+                  Crear Cuenta
                 </a>
               </p>
             </form>
