@@ -25,7 +25,7 @@ class PrestamoController extends Controller
 
         if(auth::user()->role->isAdmin())
         {
-            $prestamos = Prestamo::all()->sortByDesc('id');
+            $prestamos = Prestamo::orderByRaw("FIELD(estado, 0, 1, 3, 2, 4)")->get();
             $alerts = Prestamo::where('estado', EstadoPrestamo::Activo->value)->where('fecha_devolucion', '>', today(), 'and', '<', (today()->addDays(3)))->get();
         }
         elseif(auth::user()->role->isCliente())
