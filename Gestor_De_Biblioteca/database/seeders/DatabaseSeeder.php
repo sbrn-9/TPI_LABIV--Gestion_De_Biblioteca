@@ -18,8 +18,6 @@ class DatabaseSeeder extends Seeder
         ************************DESCOMENTAR LO DE ABAJO PARA LA PRIMERA VEZ***********************************
         */
         $this->call([
-            //MiUsuarioSeeder::class,
-            CategoriaSeeder::class,
             LibroSeeder::class,
             ClientesSeeder::class,
             PrestamosSeeder::class,

@@ -14,7 +14,7 @@ class ClientesSeeder extends Seeder
      */
     public function run(): void
     {
-
+        User::Factory(100)->create();
         $clientes = [
             [
                 'name' => 'Ana García',
