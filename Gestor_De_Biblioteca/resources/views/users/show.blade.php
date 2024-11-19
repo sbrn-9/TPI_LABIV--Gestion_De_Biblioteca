@@ -36,7 +36,7 @@
                             <th>Rol</th>
                             <td>
                                 <span class="badge text-white {{ $user->role == 0 ? 'bg-success' : 'bg-primary' }}">
-                                    {{ $user->role == 0 ? 'Administrador' : 'Cliente' }}
+                                    {{ $user->role->getNombreTipo() }}
                                 </span>
                             </td>
                         </tr>
