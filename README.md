@@ -2,7 +2,10 @@
 
 # Contenidos
 - [Tecnologías](#tecnologías)
+- [Instrucciones: SON IMPORTANTES](#instrucciones)
 - [Colaboradores](#colaboradores)
+  
+
 
 
 ## Tecnologías
@@ -10,6 +13,20 @@
   <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=html,css,js,php,laravel,git&perline=3" />
   </a>
+</p>
+
+## Instrucciones
+<p>
+  - Correr seeders
+  - Usuarios 
+  Admin email: profe@admin.com
+  Admin contraseña: profe@admin.com
+  
+  Cliente email: profe@cliente.com
+  Cliente contraseña: 12345678
+
+  - NOTA: Tener en cuenta que las imagenes están almacenadas en un entorno local, por ende, probar cargando imagenes.
+
 </p>
 
 ## Colaboradores
