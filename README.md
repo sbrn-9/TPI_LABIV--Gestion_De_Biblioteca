@@ -27,7 +27,7 @@
 
 ## DER
 <p align="center">
-  <img src="./public/assets/img/DER- GESTOR DE BIBLIOTECA.png" width=450><br>
+  <img src="Gestor_De_Biblioteca/public/assets/img/DER- GESTOR DE BIBLIOTECA.drawio.png" width=800><br>
 </p>
 
 
