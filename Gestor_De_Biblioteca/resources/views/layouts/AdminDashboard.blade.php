@@ -106,6 +106,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{route('informes.negocio')}}">Negocio</a>
                         <a class="collapse-item" href="{{route('informes.control')}}">Control</a>
+                        <a class="collapse-item" href="{{route('informes.reporte')}}">Reporte</a>
                     </div>
                 </div>
             </li>

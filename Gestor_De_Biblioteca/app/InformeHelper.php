@@ -101,4 +101,37 @@ class InformeHelper
                                         from libros)');
         return $oldestLibro[0];
     }
+
+    public static function getAdminWeeklyCancelations($adminId)
+{
+    $cancelations = DB::select(
+        'select count(*) as total_cancelations
+        from prestamos
+        where admin_id = :adminId and estado = "cancelado" and YEARWEEK(fecha_cancelacion, 1) = YEARWEEK(CURDATE(), 1)',
+        ['adminId' => $adminId]
+    );
+
+    return $cancelations[0]->total_cancelations;
+}
+
+public static function getMonthlyAverages()
+{
+    $averages = DB::select(
+        'select
+            avg(cancelaciones) as avg_cancelations,
+            avg(activaciones) as avg_activations,
+            avg(cierres) as avg_closures
+        from (
+            select
+                count(case when estado = "cancelado" then 1 end) as cancelaciones,
+                count(case when estado = "activo" then 1 end) as activaciones,
+                count(case when estado = "cerrado" then 1 end) as cierres
+            from prestamos
+            group by YEAR(fecha_estado), MONTH(fecha_estado)
+        ) as monthly_data'
+    );
+
+    return $averages[0];
+}
+
 }

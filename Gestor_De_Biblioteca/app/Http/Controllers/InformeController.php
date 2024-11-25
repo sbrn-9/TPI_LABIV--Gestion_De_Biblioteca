@@ -8,6 +8,7 @@ use App\Models\Libros_Prestados;
 use App\Models\Prestamo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class InformeController extends Controller
 {
@@ -56,5 +57,25 @@ class InformeController extends Controller
         'largestLibro' => $largestLibro,
         'oldestLibro' => $oldestLibro]);
     }
+
+
+
+public function reporteAdmin()
+{
+    $admins = User::where('role', 0)->get();
+    $adminReports = [];
+
+    foreach ($admins as $admin) {
+        $adminReports[] = [
+            'admin' => $admin,
+            'weekly_cancelations' => InformeHelper::getAdminWeeklyCancelations($admin->id)
+        ];
+    }
+
+    $monthlyAverages = InformeHelper::getMonthlyAverages();
+
+    return view('admin.reports', compact('adminReports', 'monthlyAverages'));
+}
+
 
 }
