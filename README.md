@@ -14,6 +14,7 @@
   
 # Contenidos
 - [Tecnologías](#tecnologías)
+- [DER](#der)
 - [Colaboradores](#colaboradores)
 
 
@@ -24,6 +25,10 @@
   </a>
 </p>
 
+## DER
+<p align="center">
+  <img src="./public/assets/img/DER- GESTOR DE BIBLIOTECA.png" width=450><br>
+</p>
 
 
 
