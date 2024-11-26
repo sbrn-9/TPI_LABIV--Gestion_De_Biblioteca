@@ -107,12 +107,13 @@ class InformeHelper
     $cancelations = DB::select(
         'select count(*) as total_cancelations
         from prestamos
-        where admin_id = :adminId and estado = "cancelado" and YEARWEEK(fecha_cancelacion, 1) = YEARWEEK(CURDATE(), 1)',
+        where admin_cancelador = :adminId and estado = "cancelado" and YEARWEEK(canceled_at, 1) = YEARWEEK(CURDATE(), 1)',
         ['adminId' => $adminId]
     );
 
     return $cancelations[0]->total_cancelations;
 }
+
 
 public static function getMonthlyAverages()
 {
@@ -127,11 +128,12 @@ public static function getMonthlyAverages()
                 count(case when estado = "activo" then 1 end) as activaciones,
                 count(case when estado = "cerrado" then 1 end) as cierres
             from prestamos
-            group by YEAR(fecha_estado), MONTH(fecha_estado)
+            group by YEAR(updated_at), MONTH(updated_at)
         ) as monthly_data'
     );
 
     return $averages[0];
 }
+
 
 }
