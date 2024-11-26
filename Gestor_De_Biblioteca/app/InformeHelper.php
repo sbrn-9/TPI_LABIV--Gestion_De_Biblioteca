@@ -103,19 +103,42 @@ class InformeHelper
     }
 
     public static function getAdminWeeklyCancelations($adminId)
-{
-    $cancelations = DB::select(
-        'select count(*) as total_cancelations
-        from prestamos
-        where admin_cancelador = :adminId and estado = "cancelado" and YEARWEEK(canceled_at, 1) = YEARWEEK(CURDATE(), 1)',
-        ['adminId' => $adminId]
-    );
+    {
+        $cancelations = DB::select(
+            'select count(*) as total_cancelations
+            from prestamos
+            where admin_cancelador = :adminId and estado = 4 and YEARWEEK(canceled_at, 1) = YEARWEEK(CURDATE(), 1)',
+            ['adminId' => $adminId]
+        );
 
-    return $cancelations[0]->total_cancelations;
-}
+        return $cancelations[0]->total_cancelations ?? 0;
+    }
 
+    public static function getAdminWeeklyActivations($adminId)
+    {
+        $activations = DB::select(
+            'select count(*) as total_activations
+            from prestamos
+            where admin_activador = :adminId and estado = 1 and YEARWEEK(updated_at, 1) = YEARWEEK(CURDATE(), 1)',
+            ['adminId' => $adminId]
+        );
 
-public static function getMonthlyAverages()
+        return $activations[0]->total_activations ?? 0;
+    }
+
+    public static function getAdminWeeklyRejections($adminId)
+    {
+        $rejections = DB::select(
+            'select count(*) as total_rejections
+            from prestamos
+            where admin_eliminador = :adminId and estado = 2 and YEARWEEK(updated_at, 1) = YEARWEEK(CURDATE(), 1)',
+            ['adminId' => $adminId]
+        );
+
+        return $rejections[0]->total_rejections ?? 0;
+    }
+
+    public static function getMonthlyAverages()
 {
     $averages = DB::select(
         'select
@@ -124,16 +147,24 @@ public static function getMonthlyAverages()
             avg(cierres) as avg_closures
         from (
             select
-                count(case when estado = "cancelado" then 1 end) as cancelaciones,
-                count(case when estado = "activo" then 1 end) as activaciones,
-                count(case when estado = "cerrado" then 1 end) as cierres
+                count(case when estado = 4 then 1 end) as cancelaciones,
+                count(case when estado = 1 then 1 end) as activaciones,
+                count(case when estado = 2 then 1 end) as cierres
             from prestamos
             group by YEAR(updated_at), MONTH(updated_at)
         ) as monthly_data'
     );
 
-    return $averages[0];
+    $result = $averages[0];
+
+    return [
+        'avg_cancelations' => ceil($result->avg_cancelations),
+        'avg_activations' => ceil($result->avg_activations),
+        'avg_closures' => ceil($result->avg_closures)
+    ];
 }
+
+
 
 
 }

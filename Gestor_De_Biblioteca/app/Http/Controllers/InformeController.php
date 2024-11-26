@@ -60,17 +60,17 @@ class InformeController extends Controller
 
 
 
-// InformeController.php
-
-public function reporteAdmin() {
-
+public function reporteAdmin()
+{
     $admins = User::where('role', 0)->get(); // Suponiendo que role 0 es administrador
     $adminReports = [];
 
     foreach ($admins as $admin) {
         $adminReports[] = [
             'admin' => $admin,
-            'weekly_cancelations' => InformeHelper::getAdminWeeklyCancelations($admin->id)
+            'weekly_cancelations' => InformeHelper::getAdminWeeklyCancelations($admin->id),
+            'weekly_activations' => InformeHelper::getAdminWeeklyActivations($admin->id),
+            'weekly_rejections' => InformeHelper::getAdminWeeklyRejections($admin->id)
         ];
     }
 
@@ -78,6 +78,8 @@ public function reporteAdmin() {
 
     return view('informes.reporte', compact('adminReports', 'monthlyAverages'));
 }
+
+
 
 
 
