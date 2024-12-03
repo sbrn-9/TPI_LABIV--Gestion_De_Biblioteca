@@ -12,7 +12,7 @@
 >- DB_DATABASE=gestor_de_biblioteca
 >-  
 >-  
->- 4) Cambiar la zona
+> 4) Cambiar la zona
 >- APP_TIMEZONE=America/Argentina/Buenos_Aires
 >- APP_URL=http://localhost
 
