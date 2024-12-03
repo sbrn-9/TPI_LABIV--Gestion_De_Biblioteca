@@ -10,38 +10,25 @@
 >- DB_HOST=127.0.0.1
 >- DB_PORT=3306
 >- DB_DATABASE=gestor_de_biblioteca
->-  
->-  
 > 4) Cambiar la zona
->- APP_TIMEZONE=America/Argentina/Buenos_Aires
->- APP_URL=http://localhost
-
+ >- APP_TIMEZONE=America/Argentina/Buenos_Aires
+ >- APP_URL=http://localhost
  >- APP_LOCALE=es
  >- APP_FALLBACK_LOCALE=es
- >- APP_FAKER_LOCALE=es_ES
+>- APP_FAKER_LOCALE=es_ES
 > 6) Generar una nueva key con el comando php artisan key:generate
 > 7) Luego ejecutar npm install
->-	Si da error al correr los scripts 
->-	 Verificar la política de ejecución actual*: 
->-   - Puedes verificar la política de ejecución actual escribiendo el siguiente comando:
->		Get-ExecutionPolicy
-	 Cambiar la política de ejecución: 
-   - Para permitir la ejecución de scripts, puedes cambiar la política a  RemoteSigned  o  Unrestricted .  
-   - Para  RemoteSigned  (que es una opción segura para la mayoría de los usuarios):
-	Set-ExecutionPolicy RemoteSigned
-	- O si prefieres  Unrestricted  (que permite todos los scripts, pero es menos seguro):
-	Set-ExecutionPolicy Unrestricted
-> Despues se tiene que generar el archivo manifest.json
-> 8) Se ejecuta el comando npm run build"
->- Correr seeders: aunque puede ejecutar la aplicación sin registros en DB con el comando "php artisan db:seed"
+> 8) Ejecutar migraciones php artisan:migrate
+> 9) Correr seeders: aunque puede ejecutar la aplicación sin registros en DB con el comando "php artisan db:seed"
+
+
+>[!NOTE]
 >- Usuarios (se le crearán automáticamente sus usuarios, puede probar registrarse pero será si o si un cliente, solo un admin puede crear admins): 
 > - Admin email: profe@admin.com
 > - Admin contraseña: 12345678
 > - Cliente email: profe@cliente.com
 > - Cliente contraseña: 12345678
-
->[!NOTE]
->Se preparó la aplicacion para que cada vez que se agregue un nuevo libro al negocio, se cargue con una imagen local de la maquina, por lo tanto con seeders no se cargan imágenes.
+> - Se preparó la aplicacion para que cada vez que se agregue un nuevo libro al negocio, se cargue con una imagen local de la maquina, por lo tanto con seeders no se cargan imágenes.
   
 # Contenidos
 - [Tecnologías](#tecnologías)
@@ -56,7 +43,7 @@
   </a>
 </p>
 
-## DER
+## MER
 <p align="center">
   <img src="Gestor_De_Biblioteca/public/assets/img/DER- GESTOR DE BIBLIOTECA.drawio.png" width=800><br>
 </p>
