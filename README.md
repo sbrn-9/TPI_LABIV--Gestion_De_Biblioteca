@@ -18,8 +18,9 @@
 >- APP_FAKER_LOCALE=es_ES
 > 6) Generar una nueva key con el comando php artisan key:generate
 > 7) Luego ejecutar npm install
-> 8) Ejecutar migraciones php artisan:migrate
-> 9) Correr seeders con el comando "php artisan db:seed"
+> 8) Ejecutar el comando  "npm run build"
+> 9) Ejecutar migraciones php artisan:migrate
+> 10) Correr seeders con el comando "php artisan db:seed"
 
 
 >[!NOTE]
