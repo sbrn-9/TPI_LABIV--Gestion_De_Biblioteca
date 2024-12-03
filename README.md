@@ -2,29 +2,29 @@
 
 >[!IMPORTANT]
 > Instrucciones:
->Antes de ejecutar hay que solucionar el error de clonacion de laravel con los siguientes pasos:
->1) Primero ejecutar el comando Composer install
->2) Luego ejecutar el comando "copy .env.example .env" (copiará todo lo que está en env.example a un nuevo archivo .env)
->3) Colocar todos los datos de la base (nombre de la base y cambiar el db connection a mysql)
-> DB_CONNECTION=mysql
-> DB_HOST=127.0.0.1
->DB_PORT=3306
->  DB_DATABASE=gestor_de_biblioteca
->  # DB_USERNAME=root
->  # DB_PASSWORD=
-4) Cambiar la zona
-> APP_TIMEZONE=America/Argentina/Buenos_Aires
-> APP_URL=http://localhost
+> Antes de ejecutar hay que solucionar el error de clonacion de laravel con los siguientes pasos:
+> 1) Primero ejecutar el comando Composer install
+> 2) Luego ejecutar el comando "copy .env.example .env" (copiará todo lo que está en env.example a un nuevo archivo .env)
+> 3) Colocar todos los datos de la base (nombre de la base y cambiar el db connection a mysql)
+>- DB_CONNECTION=mysql
+>- DB_HOST=127.0.0.1
+>- DB_PORT=3306
+>- DB_DATABASE=gestor_de_biblioteca
+>-  
+>-  
+>- 4) Cambiar la zona
+>- APP_TIMEZONE=America/Argentina/Buenos_Aires
+>- APP_URL=http://localhost
 
- > APP_LOCALE=es
- > APP_FALLBACK_LOCALE=es
- > APP_FAKER_LOCALE=es_ES
-6) Generar una nueva key con el comando php artisan key:generate
-7) Luego ejecutar npm install
-	Si da error al correr los scripts 
-	 Verificar la política de ejecución actual*: 
-   - Puedes verificar la política de ejecución actual escribiendo el siguiente comando:
-		Get-ExecutionPolicy
+ >- APP_LOCALE=es
+ >- APP_FALLBACK_LOCALE=es
+ >- APP_FAKER_LOCALE=es_ES
+>- 6) Generar una nueva key con el comando php artisan key:generate
+>- 7) Luego ejecutar npm install
+>-	Si da error al correr los scripts 
+>-	 Verificar la política de ejecución actual*: 
+>-   - Puedes verificar la política de ejecución actual escribiendo el siguiente comando:
+>		Get-ExecutionPolicy
 	 Cambiar la política de ejecución: 
    - Para permitir la ejecución de scripts, puedes cambiar la política a  RemoteSigned  o  Unrestricted . Aquí te muestro 	cómo hacerlo: 
    - Para  RemoteSigned  (que es una opción segura para la mayoría de los usuarios):
