@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Enums\EstadoPrestamo;
 use App\Models\Prestamo;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-class welcomeController extends Controller
+use Illuminate\Http\Request;
+
+class GuestController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
     public function __invoke(Request $request)
     {
             $alerts = null;

@@ -4,14 +4,13 @@ use App\Http\Controllers\LibroController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PrestamoController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\GuestController;
 use App\Http\Controllers\InformeController;
-use App\Http\Controllers\welcomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsRoleCliente;
 use App\Http\Middleware\IsRoleAdmin;
 
-Route::get('/', welcomeController::class)->name('welcome');
-
+Route::get('/', GuestController::class)->name('welcome');
 Route::middleware('auth')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
