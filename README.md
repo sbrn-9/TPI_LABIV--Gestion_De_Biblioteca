@@ -4,7 +4,7 @@
 > Instrucciones:
 > Antes de ejecutar hay que solucionar el error de clonacion de laravel con los siguientes pasos:
 > 1) Primero ejecutar el comando Composer install
-> 2) Luego ejecutar el comando "copy .env.example .env" (copiará todo lo que está en env.example a un nuevo archivo .env)
+> 2) Ejecutar el comando "copy .env.example .env" (copiará todo lo que está en env.example a un nuevo archivo .env)
 > 3) Colocar todos los datos de la base (nombre de la base y cambiar el db connection a mysql)
 >- DB_CONNECTION=mysql
 >- DB_HOST=127.0.0.1
@@ -19,7 +19,7 @@
 > 6) Generar una nueva key con el comando php artisan key:generate
 > 7) Luego ejecutar npm install
 > 8) Ejecutar el comando  "npm run build"
-> 9) Ejecutar migraciones php artisan:migrate
+> 9) Ejecutar migraciones php artisan migrate
 > 10) Correr seeders con el comando "php artisan db:seed"
 
 
@@ -30,7 +30,8 @@
 > - Cliente email: profe@cliente.com
 > - Cliente contraseña: 12345678
 > - Se preparó la aplicacion para que cada vez que se agregue un nuevo libro al negocio, se cargue con una imagen local de la maquina, por lo tanto con seeders no se cargan imágenes.
-  
+> - Al entrar a la aplicacion podra ver los préstamos cargados, y si ejecuta el comando php artisan app:actualizar-prestamo-atrasado
+    podrá ver como un préstamo activo con fecha de devolucion pasada se marca como atrasado.
 # Contenidos
 - [Tecnologías](#tecnologías)
 - [DER](#der)
