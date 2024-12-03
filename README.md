@@ -19,7 +19,7 @@
 > 6) Generar una nueva key con el comando php artisan key:generate
 > 7) Luego ejecutar npm install
 > 8) Ejecutar migraciones php artisan:migrate
-> 9) Correr seeders: aunque puede ejecutar la aplicación sin registros en DB con el comando "php artisan db:seed"
+> 9) Correr seeders con el comando "php artisan db:seed"
 
 
 >[!NOTE]
