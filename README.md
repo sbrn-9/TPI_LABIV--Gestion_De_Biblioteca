@@ -30,7 +30,7 @@
 > - Cliente email: profe@cliente.com
 > - Cliente contraseña: 12345678
 > - Se preparó la aplicacion para que cada vez que se agregue un nuevo libro al negocio, se cargue con una imagen local de la maquina, por lo tanto con seeders no se cargan imágenes.
-> - Al entrar a la aplicacion podra ver los préstamos cargados, y si ejecuta el comando php artisan app:actualizar-prestamo-atrasado
+> - Al entrar a la aplicacion podra ver los préstamos cargados, y si ejecuta el comando 'php artisan app:actualizar-prestamo-atrasado'
     podrá ver como un préstamo activo con fecha de devolucion pasada se marca como atrasado.
 # Contenidos
 - [Tecnologías](#tecnologías)
