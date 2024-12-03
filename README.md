@@ -19,20 +19,20 @@
  >- APP_LOCALE=es
  >- APP_FALLBACK_LOCALE=es
  >- APP_FAKER_LOCALE=es_ES
->- 6) Generar una nueva key con el comando php artisan key:generate
->- 7) Luego ejecutar npm install
+> 6) Generar una nueva key con el comando php artisan key:generate
+> 7) Luego ejecutar npm install
 >-	Si da error al correr los scripts 
 >-	 Verificar la política de ejecución actual*: 
 >-   - Puedes verificar la política de ejecución actual escribiendo el siguiente comando:
 >		Get-ExecutionPolicy
 	 Cambiar la política de ejecución: 
-   - Para permitir la ejecución de scripts, puedes cambiar la política a  RemoteSigned  o  Unrestricted . Aquí te muestro 	cómo hacerlo: 
+   - Para permitir la ejecución de scripts, puedes cambiar la política a  RemoteSigned  o  Unrestricted .  
    - Para  RemoteSigned  (que es una opción segura para la mayoría de los usuarios):
 	Set-ExecutionPolicy RemoteSigned
 	- O si prefieres  Unrestricted  (que permite todos los scripts, pero es menos seguro):
 	Set-ExecutionPolicy Unrestricted
 > Despues se tiene que generar el archivo manifest.json
-8) Se ejecuta el comando npm run build"
+> 8) Se ejecuta el comando npm run build"
 >- Correr seeders: aunque puede ejecutar la aplicación sin registros en DB con el comando "php artisan db:seed"
 >- Usuarios (se le crearán automáticamente sus usuarios, puede probar registrarse pero será si o si un cliente, solo un admin puede crear admins): 
 > - Admin email: profe@admin.com
